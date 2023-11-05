@@ -1,0 +1,44 @@
+mat-toolbar {
+  display: flex;
+  height: 84px;
+  width: 100%;
+  background: #eeeeee;
+  padding: 0 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+
+    .logo {
+      height: 50px;
+      width: auto;
+    }
+  }
+
+  .nav-links-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .nav-links {
+      margin-left: 3rem;
+
+      .nav-links-button {
+        box-shadow: none !important;
+        background: #eeeeee !important;
+        height: 5rem !important;
+        font-size: 16px;
+        border-radius: 0;
+        margin-left: 10px;
+      }
+    }
+
+    .nav-account-icon {
+      transform: scale(1.2);
+    }
+  }
+}

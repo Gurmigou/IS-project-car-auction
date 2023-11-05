@@ -1,0 +1,21 @@
+<div class="carousel-container">
+  <div class="carousel-wrapper">
+    <div class="carousel">
+      <div class="main-image-wrapper">
+        <button mat-icon-button id="prev-img" (click)="previousImage()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <img [src]="images[currentImageIndex]" class="main-image" alt="main-image">
+        <button mat-icon-button id="next-img" (click)="nextImage()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+      <div class="thumbnails-grid">
+        <img *ngFor="let img of images; let i = index"
+             [src]="img"
+             [class.active]="i === currentImageIndex"
+             (click)="selectImage(i)" alt="img">
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+mat-card {
+  max-width: 400px;
+  margin: 50px auto;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.registration-title {
+  margin: 1rem auto;
+  font-weight: bold;
+  color: #ef393f;
+  font-size: 22px;
+}
+
+.register-insurance-company-title {
+  margin: 0 0 1rem 0;
+  text-align: justify;
+  color: #525252;
+}
+
+.register-button {
+  background: #f5e5bf;
+  border: 2px solid #eedcae;
+  color: black;
+}

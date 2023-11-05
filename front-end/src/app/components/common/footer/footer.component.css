@@ -1,0 +1,36 @@
+.footer {
+  background-color: #3f3f3f;
+  color: white;
+  padding: 1rem 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  line-height: 1.5rem;
+  height: 135px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+
+  .author-name {
+    color: #efe6cc;
+  }
+}
+
+.links-container {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 0.5rem;
+
+  .link {
+    text-decoration: none;
+    color: #ef393f;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+}

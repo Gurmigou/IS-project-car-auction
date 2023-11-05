@@ -1,0 +1,103 @@
+<mat-card>
+  <mat-card-title class="car-damage-title">Damaged car lot</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="carForm">
+      <mat-card-title class="car-damage-subtitle">Car information</mat-card-title>
+      <div class="car-general-information">
+
+        <mat-form-field class="full-width">
+          <mat-label>Car make</mat-label>
+          <mat-select formControlName="carMake">
+            <mat-option *ngFor="let make of carMakes" [value]="make">{{ make }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Car model</mat-label>
+          <mat-select formControlName="carModel">
+            <mat-option *ngFor="let model of carModels" [value]="model">{{ model }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>VIN</mat-label>
+          <input matInput formControlName="vin">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Car State</mat-label>
+          <mat-select formControlName="carState">
+            <mat-option *ngFor="let state of carStates" [value]="state">{{ state }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Description of Damage</mat-label>
+          <textarea matInput formControlName="damageDescription"></textarea>
+        </mat-form-field>
+
+        <div class="images-section">
+          <div class="upload-image-container">
+            <div class="upload-image-title">Load images that contain car damages</div>
+            <div class="upload-container">
+              <input #inputImage hidden="hidden" id="input-file-id" multiple type="file"
+                     (change)="onImageUpload($event)" accept=".png, .jpg, .jpeg"/>
+              <button mat-flat-button class="upload-button"
+                      (click)="inputImage.click()">Upload images
+              </button>
+            </div>
+          </div>
+          <div class="uploaded-car-image-grid">
+            <div class="uploaded-car-image-container"
+                 *ngFor="let img of uploadedImages; let i = index">
+              <img class="uploaded-image" [src]="img" alt="car">
+              <button class="uploaded-image-remove" mat-flat-button color="basic"
+                      title="Delete" (click)="removeImage(i)">Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <mat-checkbox formControlName="withoutPublish">Create template without publish</mat-checkbox>
+
+      <ng-container *ngIf="!isWithoutPublish()">
+        <mat-divider class="forms-divider"></mat-divider>
+        <div class="car-lot-information">
+          <mat-card-title class="car-damage-subtitle">Lot information</mat-card-title>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Lot Initial Amount</mat-label>
+            <input matInput type="number" formControlName="lotInitialAmount" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Date of Auction Start</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="auctionStartDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Duration of Auction</mat-label>
+            <mat-select formControlName="auctionDuration">
+              <mat-option value="1 hour">1 hour</mat-option>
+              <mat-option value="6 hours">6 hours</mat-option>
+              <mat-option value="12 hours">12 hours</mat-option>
+              <mat-option value="24 hours">24 hours</mat-option>
+              <mat-option value="2 days">2 days</mat-option>
+              <mat-option value="7 days">7 days</mat-option>
+              <mat-option value="30 days">30 days</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <button mat-raised-button type="submit"
+              class="damaged-car-form-submit-button"
+              [disabled]="!isSubmitFormEnabled()"
+              (click)="onFormSubmit()">Submit
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-title class="login-title">Login</mat-card-title>
+  <mat-card-content>
+    <mat-form-field class="full-width">
+      <mat-label>Select</mat-label>
+      <mat-select [(ngModel)]="loginType">
+        <mat-option [value]="'USER'">User</mat-option>
+        <mat-option [value]="'INSURANCE_COMPANY_USER'">
+          Insurance company representative
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <form>
+      <ng-container *ngIf="loginType === 'INSURANCE_COMPANY_USER'">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Company name</mat-label>
+          <input matInput placeholder="Company name" required>
+        </mat-form-field>
+      </ng-container>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="Password" required>
+      </mat-form-field>
+
+      <button mat-raised-button class="full-width login-button">Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>

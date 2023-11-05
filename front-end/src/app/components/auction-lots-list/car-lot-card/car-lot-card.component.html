@@ -1,0 +1,17 @@
+<mat-card class="car-card">
+  <div class="car-image">
+    <img mat-card-image [src]="car?.imageUrl" alt="Damaged car image">
+  </div>
+
+  <div class="car-details">
+    <div class="car-title-container">
+      <div class="car-title">{{ car?.carMake + ' ' + car?.carModel }}</div>
+      <div class="car-description">{{ car?.damageDescription }}</div>
+    </div>
+    <div class="car-info">
+      <div class="car-price">Current Price: ${{ car?.currentPrice }}</div>
+      <div class="time-left">Time left: {{ car?.timeLeft }}</div>
+      <div class="insurance-company">Insurance company: {{ car?.insuranceCompany }}</div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-title>Auction</mat-card-title>
+  <div class="lot-information-wrapper">
+    <div class="lot-information-grid">
+      <div>Initial price</div>
+      <div>{{car?.initialPrice | currency}}</div>
+
+      <div>Auction start date</div>
+      <div>{{car?.auctionStartDate}}</div>
+
+      <div>Auction duration</div>
+      <div>{{car?.auctionDuration}}</div>
+      <div>Time left</div>
+      <div>
+        <strong>{{car?.timeLeft}}</strong>
+      </div>
+    </div>
+    <div class="car-price-bid">
+      <div class="current-price-title">Current price</div>
+      <div class="current-price-value">
+        {{car?.currentPrice | currency}}
+
+        <div class="new-bid">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>New bid</mat-label>
+            <input matInput type="number">
+          </mat-form-field>
+          <button mat-icon-button (click)="null">
+            <mat-icon>autorenew</mat-icon>
+          </button>
+        </div>
+
+        <button class="full-width submit-button" mat-raised-button type="submit" color="primary"
+                [disabled]="false">Submit</button>
+      </div>
+    </div>
+  </div>
+</mat-card>

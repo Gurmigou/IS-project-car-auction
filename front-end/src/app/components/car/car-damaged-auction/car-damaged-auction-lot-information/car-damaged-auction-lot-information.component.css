@@ -1,0 +1,55 @@
+mat-card {
+  width: 600px;
+  padding: 1rem;
+  background: #f6f6f6;
+  border: 1px solid #e8e9ee;
+}
+
+mat-card-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ef393f;
+}
+
+.lot-information-wrapper {
+  margin: 1rem;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  .lot-information-grid {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    row-gap: 15px;
+  }
+
+  .car-price-bid {
+    display: flex;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 2rem 0;
+    border: 2px solid #ef393f;
+    padding: 1rem;
+    border-radius: 10px;
+
+    .current-price-title {
+      width: 40%;
+    }
+
+    .current-price-value {
+      width: 60%;
+
+      .new-bid {
+        display: flex;
+        margin-top: 1rem;
+        gap: 10px;
+      }
+
+      .submit-button {
+        background: #ef393f !important;
+      }
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}

@@ -1,0 +1,14 @@
+.car-damaged-auction-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+  padding: 1rem;
+  margin: 1rem auto;
+  width: fit-content;
+
+  .car-auction-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

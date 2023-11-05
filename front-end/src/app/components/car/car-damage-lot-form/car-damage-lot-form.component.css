@@ -1,0 +1,96 @@
+mat-card {
+  background: #eeeeee;
+}
+
+.car-damage-title {
+  margin: 1.5rem auto;
+  font-weight: bold;
+  color: #ef393f;
+  font-size: 24px;
+}
+
+.car-damage-subtitle {
+  margin: 0 0 1rem 0;
+  font-weight: bold;
+  color: #ef393f;
+  font-size: 18px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  max-width: 760px;
+  margin: 50px auto;
+}
+
+.input-car-image {
+  background: #ef393f;
+  height: 5rem;
+}
+
+.images-section {
+  margin: 0 0 1rem 0;
+
+  .upload-image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .upload-image-title {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .upload-container {
+      .upload-button {
+        background: #f5e5bf;
+        border: 2px solid #eedcae;
+        color: black;
+      }
+    }
+  }
+
+  .uploaded-car-image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin: 1rem 0;
+
+    .uploaded-car-image-container {
+      position: relative;
+      width: 100%;
+      padding-top: 75%;
+      overflow: hidden;
+
+      .uploaded-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 3px;
+      }
+
+      .uploaded-image-remove {
+        position: relative;
+        top: -3px;
+        color: white;
+      }
+    }
+  }
+}
+
+.forms-divider {
+  margin: 2rem 0 1rem 0;
+}
+
+.damaged-car-form-submit-button {
+  margin: 1rem 0 0 0;
+  width: 100%;
+  height: 3rem;
+  background: #f5e5bf;
+  border: 2px solid #eedcae;
+  color: black;
+}
