@@ -33,6 +33,8 @@ import {routes} from "./routing/Routes";
 import { AuctionLotsListComponent } from './components/auction-lots-list/auction-lots-list.component';
 import { NotFoundComponent } from './components/common/not-found/not-found.component';
 import {HttpClientModule} from "@angular/common/http";
+import { InsuranceCompanyListComponent } from './components/insurance-company/insurance-company-list/insurance-company-list.component';
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import {HttpClientModule} from "@angular/common/http";
     NavBarComponent,
     FooterComponent,
     AuctionLotsListComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    InsuranceCompanyListComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
@@ -58,7 +61,7 @@ import {HttpClientModule} from "@angular/common/http";
     MatIconModule, MatListModule, MatDatepickerModule,
     MatNativeDateModule, NgOptimizedImage, MatToolbarModule,
     MatSidenavModule, RouterLink, HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes), NgxMaterialTimepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

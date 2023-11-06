@@ -1,6 +1,6 @@
 package com.example.backendlab.service;
 
-import com.example.backendlab.dto.CarLotDto;
+import com.example.backendlab.dto.CarLotAuctionDto;
 import com.example.backendlab.model.CarAuction;
 import com.example.backendlab.model.CarLot;
 import com.example.backendlab.model.CarLotImage;
@@ -23,6 +23,7 @@ public class CarLotService {
     private final CarMakeRepository carMakeRepository;
     private final CarModelRepository carModelRepository;
     private final CarLotImageService carLotImageService;
+    private final CarAuctionRepository carAuctionRepository;
 
     @Autowired
     public CarLotService(CarLotRepository carLotRepository,
@@ -30,13 +31,14 @@ public class CarLotService {
                          UserRepository userRepository,
                          CarMakeRepository carMakeRepository,
                          CarModelRepository carModelRepository,
-                         CarLotImageService carLotImageService) {
+                         CarLotImageService carLotImageService, CarAuctionRepository carAuctionRepository) {
         this.carLotRepository = carLotRepository;
         this.insuranceCompanyRepository = insuranceCompanyRepository;
         this.userRepository = userRepository;
         this.carMakeRepository = carMakeRepository;
         this.carModelRepository = carModelRepository;
         this.carLotImageService = carLotImageService;
+        this.carAuctionRepository = carAuctionRepository;
     }
 
     public CarLot getCarLotById(Long id) {
@@ -53,17 +55,17 @@ public class CarLotService {
     }
 
     @Transactional
-    public Long saveCarLot(CarLotDto carLotDto) {
-        CarLot carLot = mapToCarLot(carLotDto);
-        if (carLotDto.getWithoutPublish()) {
+    public Long saveCarLot(CarLotAuctionDto carLotAuctionDto) {
+        CarLot carLot = mapToCarLot(carLotAuctionDto);
+        if (carLotAuctionDto.getWithoutPublish()) {
             CarLot saved = carLotRepository.save(carLot);
             return saved.getId();
         } else {
-            CarAuction carAuction = mapToCarAuction(carLotDto);
-            carAuction.setCarLot(carLot);
-            carLot.setCarAuction(carAuction);
-            CarLot saved = carLotRepository.save(carLot);
-            return saved.getId();
+            CarAuction carAuction = mapToCarAuction(carLotAuctionDto);
+            CarLot savedCarLot = carLotRepository.save(carLot);
+            carAuction.setCarLot(savedCarLot);
+            carAuctionRepository.save(carAuction);
+            return savedCarLot.getId();
         }
     }
 
@@ -72,13 +74,11 @@ public class CarLotService {
         CarLot carLot = carLotRepository
                 .findById(carLotId)
                 .orElseThrow(() -> new EntityNotFoundException("Car lot with id " + carLotId + " not found"));
-        List<CarLotImage> savedCarLotImages = carLotImageService.saveCarLotImages(images);
-        carLot.setCarLotImages(savedCarLotImages);
-        carLotRepository.save(carLot);
+        carLotImageService.saveCarLotImages(images, carLot);
     }
 
     @Transactional
-    public void updateCarLot(Long id, CarLotDto updatedCarLot) {
+    public void updateCarLot(Long id, CarLotAuctionDto updatedCarLot) {
         CarLot updated = mapToCarLot(updatedCarLot);
         updated.setId(id);
         carLotRepository.save(updated);
@@ -89,33 +89,34 @@ public class CarLotService {
         carLotRepository.deleteById(id);
     }
 
-    private CarLot mapToCarLot(CarLotDto carLotDto) {
+    private CarLot mapToCarLot(CarLotAuctionDto carLotAuctionDto) {
         CarLot carLot = new CarLot();
-        carLot.setVin(carLotDto.getVin());
-        carLot.setDamageDescription(carLotDto.getDamageDescription());
-        carLot.setCarState(carLotDto.getCarState());
+        carLot.setVin(carLotAuctionDto.getVin());
+        carLot.setDamageDescription(carLotAuctionDto.getDamageDescription());
+        carLot.setCarState(carLotAuctionDto.getCarState());
 
-        carLot.setIsActive(!carLotDto.getWithoutPublish());
+        carLot.setIsActive(!carLotAuctionDto.getWithoutPublish());
 
-        var insuranceCompany = insuranceCompanyRepository.findById(carLotDto.getInsuranceCompanyId());
+        var insuranceCompany = insuranceCompanyRepository.findById(carLotAuctionDto.getInsuranceCompanyId());
         if (insuranceCompany.isPresent()) {
             carLot.setInsuranceCompany(insuranceCompany.get());
         } else {
             throw new EntityNotFoundException("Insurance company with id " +
-                    carLotDto.getInsuranceCompanyId() + " not found");
+                    carLotAuctionDto.getInsuranceCompanyId() + " not found");
         }
 
-        var carModel = carModelRepository.findByName(carLotDto.getCarModel());
+        var carModel = carModelRepository.findCarModelByName(carLotAuctionDto.getCarModel());
         carLot.setCarModel(carModel);
+
+        carLot.setIsActive(true);
         return carLot;
     }
 
-    private CarAuction mapToCarAuction(CarLotDto carLotDto) {
+    private CarAuction mapToCarAuction(CarLotAuctionDto carLotAuctionDto) {
         CarAuction carAuction = new CarAuction();
-        carAuction.setInitialPrice(carLotDto.getInitialPrice());
-        carAuction.setCurrentPrice(carLotDto.getInitialPrice());
-        carAuction.setAuctionDurationHours(carLotDto.getAuctionDurationHours());
-        carAuction.setAuctionStart(carLotDto.getAuctionStart());
+        carAuction.setInitialPrice(carLotAuctionDto.getInitialPrice());
+        carAuction.setAuctionDurationHours(carLotAuctionDto.getAuctionDurationHours());
+        carAuction.setAuctionStart(carLotAuctionDto.getAuctionStart());
         return carAuction;
     }
 }

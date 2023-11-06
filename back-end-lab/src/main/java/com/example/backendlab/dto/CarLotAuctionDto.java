@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarLotDto {
+public class CarLotAuctionDto {
     private Long id;
     private String carMake;
     private String carModel;

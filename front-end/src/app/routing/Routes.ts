@@ -5,6 +5,9 @@ import {LoginComponent} from "../components/security/login/login.component";
 import {RegistrationComponent} from "../components/security/registration/registration.component";
 import {AuctionLotsListComponent} from "../components/auction-lots-list/auction-lots-list.component";
 import {NotFoundComponent} from "../components/common/not-found/not-found.component";
+import {
+  InsuranceCompanyListComponent
+} from "../components/insurance-company/insurance-company-list/insurance-company-list.component";
 
 export const routes: Routes = [
   {path: '', component: CarDamagedAuctionComponent},
@@ -12,5 +15,6 @@ export const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
   {path: 'new-lot', component: CarDamageLotFormComponent},
   {path: 'lot-list', component: AuctionLotsListComponent},
+  {path: 'insurance-company-list', component: InsuranceCompanyListComponent},
   {path: '**', component: NotFoundComponent},
 ];

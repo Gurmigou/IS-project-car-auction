@@ -29,6 +29,7 @@ export class CarDamageLotFormComponent implements OnInit {
       carState: ['', Validators.required],
       lotInitialAmount: ['', Validators.required],
       auctionStartDate: ['', Validators.required],
+      auctionStartTime: ['', Validators.required],
       auctionDuration: ['', Validators.required],
       withoutPublish: [false],
     })
@@ -85,6 +86,9 @@ export class CarDamageLotFormComponent implements OnInit {
   }
 
   onFormSubmit() {
+    console.log('auctionStartDate: ' + (this.carForm.get('auctionStartDate')?.value instanceof Date))
+    console.log('auctionStartTime: ' + this.carForm.get('auctionStartTime')?.value)
+
     const carLot: CarLotForm = {
       id: undefined,
       carMake: this.carForm.get('carMake')?.value,
@@ -95,17 +99,51 @@ export class CarDamageLotFormComponent implements OnInit {
         .replaceAll(' ', '_')
         .toUpperCase(),
       initialPrice: this.carForm.get('lotInitialAmount')?.value,
-      auctionDurationHours: this.carForm.get('auctionDuration')?.value,
-      auctionStart: this.carForm.get('auctionStartDate')?.value,
+      auctionDurationHours: this.getAuctionDurationInHours(),
+      auctionStart: this.combineDateTime(
+        this.carForm.get('auctionStartDate')?.value,
+        this.carForm.get('auctionStartTime')?.value),
       withoutPublish: this.carForm.get('withoutPublish')?.value,
       insuranceCompanyId: 1
       // Number(localStorage.getItem('insuranceCompanyId'))
     }
-    this.carDamageLotFormService.saveCarLot(carLot, this.uploadedFiles)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        }
-      );
+    this.carDamageLotFormService.saveCarLot(carLot, this.uploadedFiles).subscribe();
+  }
+
+  private getAuctionDurationInHours(): number {
+    const durationValue = this.carForm.get('auctionDuration')?.value;
+    const [duration, unit] = durationValue.split(' ');
+    if (unit === 'hours') {
+      return Number(duration);
+    } else {
+      return Number(duration) * 24;
+    }
+  }
+
+  // Assuming dateStart is a JavaScript Date object and timeStart is a string in "hh:mm AM/PM" format
+  private combineDateTime(dateStart: Date, timeStart: string): string {
+    // Create a new Date object from the dateStart to avoid mutating the original date
+    let combinedDateTime = new Date(dateStart.getTime());
+
+    // Extract hours and minutes from the timeStart string
+    let [time, modifier] = timeStart.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+
+    // Convert 12-hour time format to 24-hour time format
+    if (hours === 12) {
+      hours = modifier.toUpperCase() === 'AM' ? 0 : 12;
+    } else {
+      hours = modifier.toUpperCase() === 'PM' ? hours + 12 : hours;
+    }
+
+    console.log('hours: ' + hours)
+    console.log('minutes: ' + minutes)
+
+    // Set the hours and minutes to the combinedDateTime object
+    combinedDateTime.setHours(hours, minutes);
+
+    // Convert the JavaScript Date object to an ISO 8601 string format
+    console.log('combinedDateTime: ' + combinedDateTime.toISOString())
+    return combinedDateTime.toISOString();
   }
 }

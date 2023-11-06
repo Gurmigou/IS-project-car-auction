@@ -1,7 +1,7 @@
 package com.example.backendlab.controller;
 
 
-import com.example.backendlab.dto.CarLotDto;
+import com.example.backendlab.dto.CarLotAuctionDto;
 import com.example.backendlab.service.CarLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +27,8 @@ public class CarLotController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCarLot(@RequestBody CarLotDto carLotDto) {
-        Long savedCarLotId = carLotService.saveCarLot(carLotDto);
+    public ResponseEntity<?> createCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto) {
+        Long savedCarLotId = carLotService.saveCarLot(carLotAuctionDto);
         return ResponseEntity.ok(savedCarLotId);
     }
 
@@ -40,8 +40,8 @@ public class CarLotController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCarLot(@RequestBody CarLotDto carLotDto) {
-        carLotService.updateCarLot(carLotDto.getId(), carLotDto);
+    public ResponseEntity<?> updateCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto) {
+        carLotService.updateCarLot(carLotAuctionDto.getId(), carLotAuctionDto);
         return ResponseEntity.ok().build();
     }
 }
