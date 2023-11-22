@@ -1,5 +1,6 @@
 package com.example.backendlab.service;
 
+import com.example.backendlab.dto.CarAuctionDetailedInfo;
 import com.example.backendlab.dto.CarAuctionShortInfoDto;
 import com.example.backendlab.model.CarAuction;
 import com.example.backendlab.model.CarLot;
@@ -30,6 +31,20 @@ public class CarAuctionService {
                 .stream()
                 .map(this::mapToCarAuctionShortInfoDto)
                 .toList();
+    }
+
+    CarAuctionDetailedInfo mapToCarAuctionDetailedInfo(CarAuction carAuction) {
+        var carAuctionDto = new CarAuctionDetailedInfo();
+        carAuctionDto.setAuctionId(carAuction.getId());
+        carAuctionDto.setInitialPrice(carAuction.getInitialPrice());
+        carAuctionDto.setAuctionStartDate(carAuction.getAuctionStart().toString());
+        carAuctionDto.setAuctionDuration(carAuction.getAuctionDurationHours().toString() + " hours");
+        carAuctionDto.setTimeLeft(CarCommonUtil.getAuctionTimeLeft(
+                LocalDateTime.now(), carAuction.getAuctionStart(),
+                carAuction.getAuctionDurationHours()));
+        carAuctionDto.setCurrentPrice(carBidRepository
+                .findMaxBidForCarAuctionId(carAuction.getId()));
+        return carAuctionDto;
     }
 
     private CarAuctionShortInfoDto mapToCarAuctionShortInfoDto(CarAuction carAuction) {

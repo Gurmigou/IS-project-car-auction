@@ -1,7 +1,7 @@
 .car-card {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 1.5rem;
   padding: 16px;
   width: 800px;

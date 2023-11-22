@@ -9,7 +9,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "bought_car_lot")
 public class BoughtCarLot {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,4 +20,7 @@ public class BoughtCarLot {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column
+    private Integer finalPrice;
 }

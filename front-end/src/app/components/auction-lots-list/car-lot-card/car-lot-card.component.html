@@ -1,6 +1,6 @@
-<mat-card class="car-card">
+<mat-card class="car-card" (click)="navigateToCarLotDetailedInfo(car?.lotId)">
   <div class="car-image">
-    <img mat-card-image [src]="car?.imageUrl" alt="Damaged car image">
+    <img mat-card-image [src]="'data:image/jpeg;base64,' + car?.image" alt="Damaged car image">
   </div>
 
   <div class="car-details">

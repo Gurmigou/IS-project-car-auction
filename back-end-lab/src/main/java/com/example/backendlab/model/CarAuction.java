@@ -30,5 +30,5 @@ public class CarAuction {
     @OneToMany(mappedBy = "carAuction")
     private List<CarBid> carBids;
 
-    private Boolean isFinished;
+    private Boolean isFinished = false;
 }

@@ -1,7 +1,7 @@
 <div class="car-damaged-auction-container">
-  <app-img-carousel></app-img-carousel>
+  <app-img-carousel [images]="carDetailed?.images || []"></app-img-carousel>
   <div class="car-auction-info">
-    <app-car-damaged-auction-information></app-car-damaged-auction-information>
-    <app-car-damaged-auction-lot-information></app-car-damaged-auction-lot-information>
+    <app-car-damaged-auction-information [carLot]="carDetailed?.lotInfo"/>
+    <app-car-damaged-auction-lot-information [carAuction]="carDetailed?.auctionInfo"/>
   </div>
 </div>

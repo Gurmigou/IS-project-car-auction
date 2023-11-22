@@ -5,7 +5,7 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './components/security/login/login.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatCardModule, MatCardTitle} from "@angular/material/card";
+import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -17,7 +17,7 @@ import { CarDamageLotFormComponent } from './components/car/car-damage-lot-form/
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
+import {MatNativeDateModule} from "@angular/material/core";
 import { CarLotCardComponent } from './components/auction-lots-list/car-lot-card/car-lot-card.component';
 import {NgOptimizedImage} from "@angular/common";
 import { CarDamagedAuctionComponent } from './components/car/car-damaged-auction/car-damaged-auction.component';
@@ -32,9 +32,10 @@ import { FooterComponent } from './components/common/footer/footer.component';
 import {routes} from "./routing/Routes";
 import { AuctionLotsListComponent } from './components/auction-lots-list/auction-lots-list.component';
 import { NotFoundComponent } from './components/common/not-found/not-found.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HttpParams} from "@angular/common/http";
 import { InsuranceCompanyListComponent } from './components/insurance-company/insurance-company-list/insurance-company-list.component';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
+import { StatsCardComponent } from './components/insurance-company/insurance-company-list/stats/stats-card.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
     FooterComponent,
     AuctionLotsListComponent,
     NotFoundComponent,
-    InsuranceCompanyListComponent
+    InsuranceCompanyListComponent,
+    StatsCardComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
@@ -63,8 +65,9 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
     MatSidenavModule, RouterLink, HttpClientModule,
     RouterModule.forRoot(routes), NgxMaterialTimepickerModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [HttpParams],
+  bootstrap: [AppComponent],
+  exports: [RouterModule]
 })
 export class AppModule {
 }

@@ -21,9 +21,15 @@ public class CarLotController {
         this.carLotService = carLotService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllActiveCarLots() {
-        return ResponseEntity.ok(carLotService.getAllCarLots());
+    // IC Lots [IC]
+    @GetMapping("/lots-for-ic")
+    public ResponseEntity<?> getCarLotsForInsuranceCompany() {
+        return ResponseEntity.ok(carLotService.getCarLotsForInsuranceCompany());
+    }
+
+    @GetMapping("/lot-detailed")
+    public ResponseEntity<?> getDetailedInfoByLotId(@RequestParam Long lotId) {
+        return ResponseEntity.ok(carLotService.getDetailedInfoByLotId(lotId));
     }
 
     @PostMapping

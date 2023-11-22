@@ -1,1 +1,5 @@
-<p>insurance-company-list works!</p>
+<div>
+  <ng-container *ngFor="let statsData of insuranceStats">
+    <stats-card [statsData]="statsData"></stats-card>
+  </ng-container>
+</div>

@@ -1,21 +1,38 @@
 <mat-toolbar color="primary">
   <div class="logo-container">
-    <img src="https://images.vexels.com/media/users/3/128573/isolated/preview/057cf8e7e960d13efa5f6240456fba15-red-circle-retro-car.png"
+    <img
+      src="https://images.vexels.com/media/users/3/128573/isolated/preview/057cf8e7e960d13efa5f6240456fba15-red-circle-retro-car.png"
       alt="Your Logo" class="logo">
   </div>
   <div class="nav-links-wrapper">
     <div class="nav-links">
       <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/lot-list">
-        Auctions
+              class="nav-links-button" routerLink="/ic/lot-list">
+        IC Lots [IC]
       </button>
       <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/lot-list">
-        My bids
+              class="nav-links-button" routerLink="ic/auction-list">
+        IC Actions [IC]
+      </button>
+      <button mat-raised-button type="submit"
+              class="nav-links-button" routerLink="/auction-list">
+        Auctions [U]
+      </button>
+      <button mat-raised-button type="submit"
+              class="nav-links-button" routerLink="/my-bids">
+        My bids [U]
       </button>
       <button mat-raised-button type="submit"
               class="nav-links-button" routerLink="/insurance-company-list">
-        Insurance companies
+        Insurance companies [U]
+      </button>
+      <button mat-raised-button type="submit"
+              class="nav-links-button" routerLink="/new-lot">
+        New Lot & Auction [IC]
+      </button>
+      <button mat-raised-button type="submit"
+              class="nav-links-button" routerLink="/approved-auctions">
+        Approvals [U]
       </button>
     </div>
     <button class="nav-account-icon" mat-icon-button>
@@ -23,3 +40,4 @@
     </button>
   </div>
 </mat-toolbar>
+

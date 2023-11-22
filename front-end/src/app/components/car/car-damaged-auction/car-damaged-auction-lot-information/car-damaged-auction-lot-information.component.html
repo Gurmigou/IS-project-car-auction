@@ -3,22 +3,22 @@
   <div class="lot-information-wrapper">
     <div class="lot-information-grid">
       <div>Initial price</div>
-      <div>{{car?.initialPrice | currency}}</div>
+      <div>{{carAuction?.initialPrice | currency}}</div>
 
       <div>Auction start date</div>
-      <div>{{car?.auctionStartDate}}</div>
+      <div>{{carAuction?.auctionStartDate}}</div>
 
       <div>Auction duration</div>
-      <div>{{car?.auctionDuration}}</div>
+      <div>{{carAuction?.auctionDuration}}</div>
       <div>Time left</div>
       <div>
-        <strong>{{car?.timeLeft}}</strong>
+        <strong>{{carAuction?.timeLeft}}</strong>
       </div>
     </div>
     <div class="car-price-bid">
       <div class="current-price-title">Current price</div>
       <div class="current-price-value">
-        {{car?.currentPrice | currency}}
+        {{carAuction?.currentPrice | currency}}
 
         <div class="new-bid">
           <mat-form-field class="full-width" appearance="outline">

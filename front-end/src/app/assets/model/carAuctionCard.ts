@@ -1,20 +1,31 @@
-export type CarAuctionInfo = {
+export type CarDetailedInfo = {
+  images: string[]; // in Base64 format
+  lotInfo: CarLotInfo;
+  auctionInfo: CarAuctionInfo;
+}
+
+export type CarLotInfo = {
   carMake: string;
   carModel: string;
   vin: string;
   damageDescription: string;
   carState: string;
-  initialPrice: number;
-  currentPrice: number;
-  auctionStartDate: string;
-  timeLeft: string;
-  auctionDuration: string;
   insuranceCompany: string;
+}
+
+export type CarAuctionInfo = {
+  auctionId: number;
+  initialPrice: number;
+  auctionStartDate: string;
+  auctionDuration: string;
+  timeLeft: string;
+  currentPrice: number;
 }
 
 
 export type CarAuctionCard = {
-  imageUrl: string;
+  lotId: number;
+  image: string;
   carMake: string;
   carModel: string;
   damageDescription: string;

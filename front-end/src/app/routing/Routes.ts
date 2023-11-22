@@ -10,11 +10,15 @@ import {
 } from "../components/insurance-company/insurance-company-list/insurance-company-list.component";
 
 export const routes: Routes = [
-  {path: '', component: CarDamagedAuctionComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
-  {path: 'new-lot', component: CarDamageLotFormComponent},
-  {path: 'lot-list', component: AuctionLotsListComponent},
-  {path: 'insurance-company-list', component: InsuranceCompanyListComponent},
+  {path: 'new-lot', component: CarDamageLotFormComponent}, // ic
+  {path: 'auction-list', component: AuctionLotsListComponent}, // user
+  {path: 'my-bids', component: NotFoundComponent}, // user
+  {path: 'approved-auctions', component: NotFoundComponent}, // user: ic approved auction won for user
+  {path: 'ic/lot-list', component: NotFoundComponent}, // ic
+  {path: 'ic/auction-list', component: NotFoundComponent}, // ic
+  {path: 'car-lot/:lotId', component: CarDamagedAuctionComponent}, // both
+  {path: 'insurance-company-list', component: InsuranceCompanyListComponent}, // user
   {path: '**', component: NotFoundComponent},
 ];

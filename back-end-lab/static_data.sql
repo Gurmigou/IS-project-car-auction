@@ -17,3 +17,6 @@ INSERT INTO car_model (name, car_make_id) VALUES ('X3', 2);
 INSERT INTO car_model (name, car_make_id) VALUES ('Golf', 3);
 INSERT INTO car_model (name, car_make_id) VALUES ('Passat', 3);
 INSERT INTO car_model (name, car_make_id) VALUES ('Tiguan', 3);
+
+INSERT INTO user (email, first_name, last_name, password) VALUES ('some@gmail.com', 'John', 'Doe', '123456');
+INSERT INTO insurance_company (name, owner_id) VALUES ('Insurance Company 1', 1);
