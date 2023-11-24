@@ -3,27 +3,37 @@ package com.example.backendlab.service;
 import com.example.backendlab.dto.CarAuctionDetailedInfo;
 import com.example.backendlab.dto.CarAuctionShortInfoDto;
 import com.example.backendlab.model.CarAuction;
+import com.example.backendlab.model.CarBid;
 import com.example.backendlab.model.CarLot;
 import com.example.backendlab.repository.CarAuctionRepository;
 import com.example.backendlab.repository.CarBidRepository;
+import com.example.backendlab.repository.CarLotRepository;
+import com.example.backendlab.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CarAuctionService {
     private final CarAuctionRepository carAuctionRepository;
+    private final CarLotRepository carLotRepository;
     private final CarBidRepository carBidRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public CarAuctionService(CarAuctionRepository carAuctionRepository,
-                             CarBidRepository carBidRepository) {
+                             CarLotRepository carLotRepository,
+                             CarBidRepository carBidRepository,
+                             UserRepository userRepository) {
         this.carAuctionRepository = carAuctionRepository;
+        this.carLotRepository = carLotRepository;
         this.carBidRepository = carBidRepository;
+        this.userRepository = userRepository;
     }
 
     public List<CarAuctionShortInfoDto> getActiveAuctions() {
@@ -33,7 +43,7 @@ public class CarAuctionService {
                 .toList();
     }
 
-    CarAuctionDetailedInfo mapToCarAuctionDetailedInfo(CarAuction carAuction) {
+    protected CarAuctionDetailedInfo mapToCarAuctionDetailedInfo(CarAuction carAuction) {
         var carAuctionDto = new CarAuctionDetailedInfo();
         carAuctionDto.setAuctionId(carAuction.getId());
         carAuctionDto.setInitialPrice(carAuction.getInitialPrice());
@@ -42,8 +52,10 @@ public class CarAuctionService {
         carAuctionDto.setTimeLeft(CarCommonUtil.getAuctionTimeLeft(
                 LocalDateTime.now(), carAuction.getAuctionStart(),
                 carAuction.getAuctionDurationHours()));
-        carAuctionDto.setCurrentPrice(carBidRepository
-                .findMaxBidForCarAuctionId(carAuction.getId()));
+
+        Integer currentPrice = carBidRepository
+                .findMaxBidForCarAuctionId(carAuction.getId());
+        carAuctionDto.setCurrentPrice(currentPrice == null ? 0 : currentPrice);
         return carAuctionDto;
     }
 
@@ -76,5 +88,36 @@ public class CarAuctionService {
 
         Duration remainingTime = Duration.between(currentDateTime, auctionEndDateTime);
         return remainingTime.toHours();
+    }
+
+    private boolean isAuctionActive(CarAuction carAuction) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime auctionEndDateTime = carAuction.getAuctionStart()
+                .plusHours(carAuction.getAuctionDurationHours());
+        return currentDateTime.isBefore(auctionEndDateTime);
+    }
+
+    @Transactional
+    public void makeBidForCarLot(Long carAuctionId, Integer bidAmount, String email) {
+        CarAuction carAuction = carAuctionRepository.findById(carAuctionId).orElseThrow();
+        if (!isAuctionActive(carAuction)) {
+            throw new RuntimeException("Auction is not active");
+        }
+
+        Integer maxBidAmount = carBidRepository.findMaxBidForCarAuctionId(carAuction.getId());
+        if (Objects.nonNull(maxBidAmount) && maxBidAmount >= bidAmount) {
+            throw new RuntimeException("Bid amount must be greater than current price");
+        }
+
+        CarBid newCarBid = new CarBid();
+        newCarBid.setCarAuction(carAuction);
+        newCarBid.setUser(userRepository.findByEmail(email));
+        newCarBid.setBidAmount(bidAmount);
+        carBidRepository.save(newCarBid);
+    }
+
+    public Integer getMaxBidForCarAuction(Long carAuctionId) {
+        CarAuction carAuction = carAuctionRepository.findById(carAuctionId).orElseThrow();
+        return carBidRepository.findMaxBidForCarAuctionId(carAuction.getId());
     }
 }

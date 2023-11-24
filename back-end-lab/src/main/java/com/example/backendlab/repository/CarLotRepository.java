@@ -14,7 +14,6 @@ public interface CarLotRepository extends JpaRepository<CarLot, Long> {
             SELECT CL FROM CarLot CL
             JOIN CL.carAuction CA
             WHERE CL.isActive = TRUE
-            AND FUNCTION('DATE_ADD', CA.auctionStart, FUNCTION('INTERVAL', CA.auctionDurationHours, 'HOUR')) > CURRENT_TIMESTAMP
             """)
-    List<CarLot> findAllActiveNotEndedCarLots();
+    List<CarLot> findAllActiveCarLots();
 }

@@ -4,10 +4,9 @@ import com.example.backendlab.service.CarAuctionService;
 import com.example.backendlab.service.CarLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -35,6 +34,20 @@ public class CarAuctionController {
         return ResponseEntity.ok(carLotService.getAllActiveCarLots());
     }
 
+    @PostMapping("/bid")
+    public ResponseEntity<?> bidForCarLot(@RequestParam Long carAuctionId,
+                                          @RequestParam Integer bidAmount,
+                                          Principal principal) {
+        // TODO: use principal
+        carAuctionService.makeBidForCarLot(carAuctionId, bidAmount, "some@gmail.com");
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/max-bid")
+    public ResponseEntity<?> getMaxBidForCarLot(@RequestParam Long carAuctionId) {
+        return ResponseEntity.ok(carAuctionService.getMaxBidForCarAuction(carAuctionId));
+    }
+
     // My bids [U]
     @GetMapping ("/bids-for-user")
     public ResponseEntity<?> getBidsForUser() {
@@ -43,7 +56,8 @@ public class CarAuctionController {
 
     // IC Auctions [IC]
     @GetMapping("/active-for-ic")
-    public ResponseEntity<?> getActiveForInsuranceCompany() {
-        return null;
+    public ResponseEntity<?> getActiveForInsuranceCompany(Principal principal) {
+        // TODO: use insurance company name from principal
+        return ResponseEntity.ok(carLotService.getActiveForInsuranceCompany("Insurance Company 1"));
     }
 }

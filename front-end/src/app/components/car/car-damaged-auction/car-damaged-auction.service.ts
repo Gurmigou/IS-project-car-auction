@@ -16,4 +16,19 @@ export class CarDamagedAuctionService {
     return this.httpClient.get<CarDetailedInfo>(
       `http://localhost:8080/car-lot/lot-detailed`, {params});
   }
+
+  submitNewPrice(carAuctionId: number, bidAmount: number): Observable<void> {
+    const params = new HttpParams()
+      .append('carAuctionId', carAuctionId.toString())
+      .append('bidAmount', bidAmount.toString());
+    return this.httpClient.post<void>(
+      `http://localhost:8080/car-auction/bid`, {}, {params});
+  }
+
+  getMaxBidAmount(carAuctionId: number): Observable<number> {
+    const params = new HttpParams()
+      .append('carAuctionId', carAuctionId.toString());
+    return this.httpClient.get<number>(
+      `http://localhost:8080/car-auction/max-bid`, {params});
+  }
 }

@@ -57,9 +57,19 @@ public class CarLotService {
 
     // Get auctions
     public List<CarAuctionCardDto> getAllActiveCarLots() {
-        return carLotRepository.findAllActiveNotEndedCarLots()
+        return carLotRepository.findAllActiveCarLots()
                 .stream()
+                .filter(carLot -> carLot.getCarAuction().getAuctionStart()
+                        .plusHours(carLot.getCarAuction().getAuctionDurationHours())
+                        .isAfter(LocalDateTime.now()))
                 .map(this::mapToCarAuctionCardDto)
+                .toList();
+    }
+
+    public List<CarAuctionCardDto> getActiveForInsuranceCompany(String insuranceCompanyName) {
+        return getAllActiveCarLots()
+                .stream()
+                .filter(dto -> dto.getInsuranceCompany().equals(insuranceCompanyName))
                 .toList();
     }
 
