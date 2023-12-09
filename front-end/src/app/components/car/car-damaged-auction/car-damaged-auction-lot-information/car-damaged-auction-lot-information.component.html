@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [formGroup]="formGroup">
   <mat-card-title>Auction</mat-card-title>
   <div class="lot-information-wrapper">
     <div class="lot-information-grid">
@@ -10,27 +10,33 @@
 
       <div>Auction duration</div>
       <div>{{carAuction?.auctionDuration}}</div>
-      <div>Time left</div>
-      <div>
-        <strong>{{carAuction?.timeLeft}}</strong>
-      </div>
+
+      <ng-container *ngIf="auctionStarted(carAuction?.auctionStartDate)">
+        <div>Time left</div>
+        <div>
+          <strong>{{carAuction?.timeLeft}}</strong>
+        </div>
+      </ng-container>
     </div>
-    <div class="car-price-bid">
+    <div class="car-price-bid" *ngIf="auctionStarted(carAuction?.auctionStartDate)">
       <div class="current-price-title">Current price</div>
       <div class="current-price-value">
-        {{carAuction?.currentPrice}} $
-        <div class="new-bid" [formGroup]="formGroup">
+        {{carAuction?.currentPrice + ' $'}}
+
+        <div class="new-bid">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>New bid</mat-label>
-            <input formControlName="newBidAmount" matInput type="number">
+            <input matInput type="number" formControlName="bidValue">
           </mat-form-field>
-          <button mat-icon-button (click)="onReload()">
+          <button mat-icon-button (click)="getMaxBidForAuction()">
             <mat-icon>autorenew</mat-icon>
           </button>
         </div>
 
-        <button class="full-width submit-button" mat-raised-button type="submit" color="primary"
-                [disabled]="false" (click)="onSubmitNewPrice()">Submit</button>
+        <button class="full-width submit-button" mat-raised-button type="submit"
+                color="primary"
+                (click)="submitNewBid()"
+                [disabled]="false">Submit</button>
       </div>
     </div>
   </div>

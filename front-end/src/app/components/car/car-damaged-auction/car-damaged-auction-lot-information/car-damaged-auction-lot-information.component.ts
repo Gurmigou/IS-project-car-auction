@@ -1,36 +1,48 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CarAuctionInfo} from "../../../../assets/model/carAuctionCard";
-import {CarDamagedAuctionService} from "../car-damaged-auction.service";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {FormControl, FormGroup} from "@angular/forms";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-car-damaged-auction-lot-information',
   templateUrl: './car-damaged-auction-lot-information.component.html',
   styleUrls: ['./car-damaged-auction-lot-information.component.css']
 })
-export class CarDamagedAuctionLotInformationComponent {
-  formGroup: FormGroup;
+export class CarDamagedAuctionLotInformationComponent implements OnInit {
   @Input() carAuction: CarAuctionInfo | undefined;
+  formGroup: FormGroup;
 
-  constructor(private carDamagedAuctionService: CarDamagedAuctionService) {
+  constructor(private httpClient: HttpClient) {
     this.formGroup = new FormGroup({
-      'newBidAmount': new FormControl(0)
-    })
+      bidValue: new FormControl(this.carAuction?.initialPrice)
+    });
   }
 
-  onSubmitNewPrice() {
-    const newBidAmount = this.formGroup.get('newBidAmount')?.value;
-    console.log('newBidAmount:', newBidAmount);
-    this.carDamagedAuctionService.submitNewPrice(this.carAuction!.auctionId!, newBidAmount)
-      .subscribe(() => {
-        this.onReload();
-      });
+  ngOnInit(): void {
   }
 
-  onReload() {
-    this.carDamagedAuctionService.getMaxBidAmount(this.carAuction?.auctionId!)
-      .subscribe(maxBidAmount => {
-        this.carAuction!.currentPrice = maxBidAmount;
-      });
+  submitNewBid() {
+    const httpParams = new HttpParams()
+      .append("auctionId", this.carAuction?.auctionId.toString() || "")
+      .append("bid", this.formGroup.get("bidValue")?.value || "");
+    this.httpClient.post<void>("http://localhost:8080/my-bids", {}, {params: httpParams})
+      .pipe(
+        tap(() => this.getMaxBidForAuction())
+      ).subscribe()
+  }
+
+  getMaxBidForAuction() {
+    const httpParams = new HttpParams()
+      .append("auctionId", this.carAuction?.auctionId.toString() || "");
+    this.httpClient.get<number>("http://localhost:8080/my-bids/max-bid", {params: httpParams})
+      .subscribe((maxBid: number) => {
+        this.formGroup.get("bidValue")?.setValue(maxBid)
+        this.carAuction!.currentPrice = maxBid;
+      })
+  }
+
+  auctionStarted(auctionStartDate: string | undefined): boolean {
+    return new Date(auctionStartDate || "0") <= new Date();
   }
 }

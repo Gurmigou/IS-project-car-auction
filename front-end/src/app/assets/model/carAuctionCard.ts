@@ -34,6 +34,17 @@ export type CarAuctionCard = {
   insuranceCompany: string;
 }
 
+export type MyBidCard = {
+  auctionId: number;
+  lotId: number;
+  image: string;
+  carMake: string;
+  carModel: string;
+  insuranceCompany: string;
+  bidAmounts: number[];
+}
+
+
 export type CarLotForm = {
   id: number | undefined;
   carMake: string;

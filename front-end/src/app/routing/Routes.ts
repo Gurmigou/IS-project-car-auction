@@ -5,16 +5,15 @@ import {LoginComponent} from "../components/security/login/login.component";
 import {RegistrationComponent} from "../components/security/registration/registration.component";
 import {AuctionLotsListComponent} from "../components/auction-lots-list/auction-lots-list.component";
 import {NotFoundComponent} from "../components/common/not-found/not-found.component";
-import {
-  InsuranceCompanyListComponent
-} from "../components/insurance-company/insurance-company-list/insurance-company-list.component";
+import {InsuranceCompanyListComponent} from "../components/insurance-company/insurance-company-list/insurance-company-list.component";
+import {MyBidListComponent} from "../components/bids/my-bid-list.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'new-lot', component: CarDamageLotFormComponent}, // ic
   {path: 'auction-list', component: AuctionLotsListComponent}, // user
-  {path: 'my-bids', component: NotFoundComponent}, // user
+  {path: 'my-bids', component: MyBidListComponent}, // user
   {path: 'approved-auctions', component: NotFoundComponent}, // user: ic approved auction won for user
   {path: 'ic/lot-list', component: NotFoundComponent}, // ic
   {path: 'ic/auction-list', component: NotFoundComponent}, // ic

@@ -1,11 +1,13 @@
 package com.example.backendlab.service;
 
+import com.example.backendlab.model.CarAuction;
 import com.example.backendlab.model.CarLotImage;
 
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Objects;
 
 public class CarCommonUtil {
     public static String getAuctionTimeLeft(LocalDateTime now,
@@ -35,5 +37,12 @@ public class CarCommonUtil {
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    public static boolean carAuctionIsNotEnded(CarAuction carAuction) {
+        return Objects.nonNull(carAuction.getIsFinished()) && !carAuction.getIsFinished() &&
+                carAuction.getAuctionStart()
+                        .plusHours(carAuction.getAuctionDurationHours())
+                        .isAfter(LocalDateTime.now());
     }
 }

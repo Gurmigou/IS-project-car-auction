@@ -13,7 +13,7 @@
       </div>
       <div class="thumbnails-grid">
         <img *ngFor="let img of images; let i = index"
-             [src]="'data:image/jpeg;base64,' + images[currentImageIndex]"
+             [src]="'data:image/jpeg;base64,' + img"
              [class.active]="i === currentImageIndex"
              (click)="selectImage(i)" alt="img">
       </div>

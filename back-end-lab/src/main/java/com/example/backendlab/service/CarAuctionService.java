@@ -89,35 +89,4 @@ public class CarAuctionService {
         Duration remainingTime = Duration.between(currentDateTime, auctionEndDateTime);
         return remainingTime.toHours();
     }
-
-    private boolean isAuctionActive(CarAuction carAuction) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime auctionEndDateTime = carAuction.getAuctionStart()
-                .plusHours(carAuction.getAuctionDurationHours());
-        return currentDateTime.isBefore(auctionEndDateTime);
-    }
-
-    @Transactional
-    public void makeBidForCarLot(Long carAuctionId, Integer bidAmount, String email) {
-        CarAuction carAuction = carAuctionRepository.findById(carAuctionId).orElseThrow();
-        if (!isAuctionActive(carAuction)) {
-            throw new RuntimeException("Auction is not active");
-        }
-
-        Integer maxBidAmount = carBidRepository.findMaxBidForCarAuctionId(carAuction.getId());
-        if (Objects.nonNull(maxBidAmount) && maxBidAmount >= bidAmount) {
-            throw new RuntimeException("Bid amount must be greater than current price");
-        }
-
-        CarBid newCarBid = new CarBid();
-        newCarBid.setCarAuction(carAuction);
-        newCarBid.setUser(userRepository.findByEmail(email));
-        newCarBid.setBidAmount(bidAmount);
-        carBidRepository.save(newCarBid);
-    }
-
-    public Integer getMaxBidForCarAuction(Long carAuctionId) {
-        CarAuction carAuction = carAuctionRepository.findById(carAuctionId).orElseThrow();
-        return carBidRepository.findMaxBidForCarAuctionId(carAuction.getId());
-    }
 }

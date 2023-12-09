@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.backendlab.service.CarCommonUtil.getAuctionTimeLeft;
-import static com.example.backendlab.service.CarCommonUtil.getCarImagedBase64;
+import static com.example.backendlab.service.CarCommonUtil.*;
 
 @Service
 public class CarLotService {
@@ -59,9 +58,7 @@ public class CarLotService {
     public List<CarAuctionCardDto> getAllActiveCarLots() {
         return carLotRepository.findAllActiveCarLots()
                 .stream()
-                .filter(carLot -> carLot.getCarAuction().getAuctionStart()
-                        .plusHours(carLot.getCarAuction().getAuctionDurationHours())
-                        .isAfter(LocalDateTime.now()))
+                .filter(carLot -> carAuctionIsNotEnded(carLot.getCarAuction()))
                 .map(this::mapToCarAuctionCardDto)
                 .toList();
     }
@@ -209,9 +206,5 @@ public class CarLotService {
                         .image(CarCommonUtil.getCarImagedBase64(carLot.getCarLotImages().get(0)))
                         .build())
                 .toList();
-    }
-
-    public List<CarBidCardDto> getMyBids() {
-        return null;
     }
 }

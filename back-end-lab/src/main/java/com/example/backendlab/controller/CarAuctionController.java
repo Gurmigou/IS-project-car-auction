@@ -34,26 +34,6 @@ public class CarAuctionController {
         return ResponseEntity.ok(carLotService.getAllActiveCarLots());
     }
 
-    @PostMapping("/bid")
-    public ResponseEntity<?> bidForCarLot(@RequestParam Long carAuctionId,
-                                          @RequestParam Integer bidAmount,
-                                          Principal principal) {
-        // TODO: use principal
-        carAuctionService.makeBidForCarLot(carAuctionId, bidAmount, "some@gmail.com");
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/max-bid")
-    public ResponseEntity<?> getMaxBidForCarLot(@RequestParam Long carAuctionId) {
-        return ResponseEntity.ok(carAuctionService.getMaxBidForCarAuction(carAuctionId));
-    }
-
-    // My bids [U]
-    @GetMapping ("/bids-for-user")
-    public ResponseEntity<?> getBidsForUser() {
-        return ResponseEntity.ok(carLotService.getMyBids());
-    }
-
     // IC Auctions [IC]
     @GetMapping("/active-for-ic")
     public ResponseEntity<?> getActiveForInsuranceCompany(Principal principal) {

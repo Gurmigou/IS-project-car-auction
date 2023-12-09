@@ -1,0 +1,8 @@
+<div class="bids-list-container" *ngIf="myBidCards.length">
+  <ng-container *ngFor="let bid of myBidCards">
+    <app-my-bid-card [myBid]="bid"></app-my-bid-card>
+  </ng-container>
+</div>
+<div class="no-bids" *ngIf="!myBidCards.length">
+  No bids yet
+</div>

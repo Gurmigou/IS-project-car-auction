@@ -1,0 +1,22 @@
+<mat-card class="car-card" (click)="navigateToCarLotDetailedInfo(myBid?.lotId)">
+  <div class="car-image">
+    <img mat-card-image [src]="'data:image/jpeg;base64,' + myBid?.image" alt="Damaged car image">
+  </div>
+
+  <div class="car-details">
+    <div>
+      <div class="car-title-container">
+        <div class="car-title">{{ myBid?.carMake + ' ' + myBid?.carModel }}</div>
+      </div>
+      <div class="car-info">
+        <div class="insurance-company">Insurance company: {{ myBid?.insuranceCompany }}</div>
+      </div>
+    </div>
+    <div class="bids-amount-list">
+      <div *ngFor="let bid of myBid?.bidAmounts; let i = index">
+        {{ (i + 1) + ': ' + bid + ' $' }}
+      </div>
+    </div>
+  </div>
+
+</mat-card>
