@@ -1,0 +1,8 @@
+<div class="auctions-list-ic-container" *ngIf="auctionsForIC.length">
+  <ng-container *ngFor="let car of auctionsForIC">
+    <app-ic-auction-card [car]="car"></app-ic-auction-card>
+  </ng-container>
+</div>
+<div class="empty-list" *ngIf="!auctionsForIC.length">
+  No auctions available.
+</div>

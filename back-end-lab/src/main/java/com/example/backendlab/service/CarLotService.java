@@ -67,11 +67,37 @@ public class CarLotService {
                 .toList();
     }
 
-    public List<CarAuctionCardDto> getActiveForInsuranceCompany(String insuranceCompanyName) {
-        return getAllActiveCarLots()
+    public List<CarAuctionInfoForIC> getActiveForInsuranceCompany(String insuranceCompanyName) {
+        return carLotRepository.findAllActiveCarLots()
                 .stream()
-                .filter(dto -> dto.getInsuranceCompany().equals(insuranceCompanyName))
+                .filter(carLot -> carAuctionIsNotEnded(carLot.getCarAuction()))
+                .filter(carLot -> carLot.getInsuranceCompany().getName().equals(insuranceCompanyName))
+                .map(this::mapToCarAuctionInfoForIC)
                 .toList();
+    }
+
+    private CarAuctionInfoForIC mapToCarAuctionInfoForIC(CarLot carLot) {
+        var dto = new CarAuctionInfoForIC();
+        dto.setAuctionId(carLot.getCarAuction().getId());
+        dto.setLotId(carLot.getId());
+        dto.setCarMake(carLot.getCarModel().getCarMake().getName());
+        dto.setCarModel(carLot.getCarModel().getName());
+        dto.setVin(carLot.getVin());
+        dto.setDamageDescription(carLot.getDamageDescription());
+        dto.setCarState(carLot.getCarState().name());
+        dto.setImage(getCarImagedBase64(carLot.getCarLotImages().get(0)));
+        dto.setInitialPrice(carLot.getCarAuction().getInitialPrice());
+        dto.setAuctionStartDate(carLot.getCarAuction().getAuctionStart().toString());
+        dto.setAuctionDuration(carLot.getCarAuction().getAuctionDurationHours().toString());
+        dto.setTimeLeft(getAuctionTimeLeft(LocalDateTime.now(), carLot.getCarAuction().getAuctionStart(),
+                carLot.getCarAuction().getAuctionDurationHours()));
+        dto.setBidsList(carBidRepository.findAll()
+                .stream()
+                .filter(carBid -> carBid.getCarAuction().getId().equals(carLot.getCarAuction().getId()))
+                .map(carBid -> new BidDtoForAuctionIC(carBid.getBidAmount(),
+                        carBid.getUser().getFirstName() + " " + carBid.getUser().getLastName()))
+                .toList());
+        return dto;
     }
 
     public List<CarLot> getCarLotsByInsuranceCompanyId(Long insuranceCompanyId) {
@@ -118,6 +144,13 @@ public class CarLotService {
         carLotImagesRepository.deleteAllByCarLotId(id);
 
         CarLot saved = carLotRepository.save(carLot);
+
+        if (!updatedCarLot.getWithoutPublish()) {
+            CarAuction carAuction = mapToCarAuction(updatedCarLot);
+            carAuction.setCarLot(saved);
+            carAuctionRepository.save(carAuction);
+        }
+
         return saved.getId();
     }
 

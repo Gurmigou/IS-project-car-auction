@@ -46,6 +46,8 @@ import {MyBidCardComponent} from "./components/bids/my-bid-card/my-bid-card.comp
 import {MyBidListComponent} from "./components/bids/my-bid-list.component";
 import {IcLotCardComponent} from "./components/ic/lots/ic-lot-card/ic-lot-card.component";
 import {IcLotListComponent} from "./components/ic/lots/ic-lot-list.component";
+import {IcAuctionCardComponent} from "./components/ic/auctions/ic-auction-card/ic-auction-card.component";
+import {IcAuctionListComponent} from "./components/ic/auctions/ic-auction-list.component";
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import {IcLotListComponent} from "./components/ic/lots/ic-lot-list.component";
     MyBidCardComponent,
     MyBidListComponent,
     IcLotCardComponent,
-    IcLotListComponent
+    IcLotListComponent,
+    IcAuctionCardComponent,
+    IcAuctionListComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

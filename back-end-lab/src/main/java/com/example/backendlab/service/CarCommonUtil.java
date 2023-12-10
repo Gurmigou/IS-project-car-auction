@@ -19,6 +19,9 @@ public class CarCommonUtil {
         // Check if the auction has already ended
         if (now.isAfter(auctionEnd)) {
             return "Auction has ended";
+        } else if (now.isBefore(auctionStart)) {
+            // Check if the auction has not started yet
+            return "Auction has not started yet";
         }
 
         // Calculate the duration between now and the auction end time
