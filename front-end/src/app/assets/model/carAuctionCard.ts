@@ -13,6 +13,12 @@ export type CarLotInfo = {
   insuranceCompany: string;
 }
 
+export type CarLotInfoForIC = CarLotInfo &
+  {
+    lotId: number;
+    image: string
+  };
+
 export type CarAuctionInfo = {
   auctionId: number;
   initialPrice: number;

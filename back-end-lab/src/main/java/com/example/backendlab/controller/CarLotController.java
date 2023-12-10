@@ -23,8 +23,14 @@ public class CarLotController {
 
     // IC Lots [IC]
     @GetMapping("/lots-for-ic")
-    public ResponseEntity<?> getCarLotsForInsuranceCompany() {
-        return ResponseEntity.ok(carLotService.getCarLotsForInsuranceCompany());
+    public ResponseEntity<?> getCarLotsForInsuranceCompany(String icName) {
+        return ResponseEntity.ok(carLotService.getCarLotsForInsuranceCompany(icName));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteCarLot(@RequestParam Long lotId) {
+        carLotService.deleteCarLot(lotId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/lot-detailed")
@@ -47,7 +53,7 @@ public class CarLotController {
 
     @PutMapping
     public ResponseEntity<?> updateCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto) {
-        carLotService.updateCarLot(carLotAuctionDto.getId(), carLotAuctionDto);
-        return ResponseEntity.ok().build();
+        Long updatedCarLotId = carLotService.updateCarLot(carLotAuctionDto.getId(), carLotAuctionDto);
+        return ResponseEntity.ok(updatedCarLotId);
     }
 }

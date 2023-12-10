@@ -1,0 +1,27 @@
+<mat-card class="car-card">
+  <div class="car-image">
+    <img mat-card-image [src]="'data:image/jpeg;base64,' + car?.image" alt="Damaged car image">
+  </div>
+
+  <div class="car-details">
+    <div class="car-title-container">
+      <div class="car-title">{{ car?.carMake + ' ' + car?.carModel }}</div>
+      <div class="car-description"><strong>Description:</strong> {{ car?.damageDescription }}</div>
+      <div class="car-vin"><strong>VIN:</strong> {{ car?.vin }}</div>
+      <div class="car-carState"><strong>State:</strong> {{ car?.carState }}</div>
+    </div>
+  </div>
+
+  <div class="control-buttons">
+    <button class="uploaded-image-edit"
+            mat-flat-button
+            (click)="navigateToCarLotUpdatePage()"
+            title="Delete">Edit
+    </button>
+    <button class="uploaded-image-remove"
+            mat-flat-button
+            (click)="deleteLot()"
+            title="Delete">Delete
+    </button>
+  </div>
+</mat-card>

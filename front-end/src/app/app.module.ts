@@ -44,6 +44,8 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {StatsCardComponent} from './components/insurance-company/insurance-company-list/stats/stats-card.component';
 import {MyBidCardComponent} from "./components/bids/my-bid-card/my-bid-card.component";
 import {MyBidListComponent} from "./components/bids/my-bid-list.component";
+import {IcLotCardComponent} from "./components/ic/lots/ic-lot-card/ic-lot-card.component";
+import {IcLotListComponent} from "./components/ic/lots/ic-lot-list.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import {MyBidListComponent} from "./components/bids/my-bid-list.component";
     InsuranceCompanyListComponent,
     StatsCardComponent,
     MyBidCardComponent,
-    MyBidListComponent
+    MyBidListComponent,
+    IcLotCardComponent,
+    IcLotListComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

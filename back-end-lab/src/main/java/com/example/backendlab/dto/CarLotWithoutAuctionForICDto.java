@@ -13,4 +13,7 @@ public class CarLotWithoutAuctionForICDto {
     private String carModel;
     private String image;
     private String damageDescription;
+    private String insuranceCompany;
+    private String carState;
+    private String vin;
 }

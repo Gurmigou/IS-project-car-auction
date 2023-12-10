@@ -34,13 +34,13 @@ public class CarLot {
     @JoinColumn(name = "insurance_company_id", nullable = false)
     private InsuranceCompany insuranceCompany;
 
-    @OneToMany(mappedBy = "carLot")
+    @OneToMany(mappedBy = "carLot", cascade = CascadeType.ALL)
     private List<CarLotImage> carLotImages;
 
     @ManyToOne
     @JoinColumn(name = "car_model_id", nullable = false)
     private CarModel carModel;
 
-    @OneToOne(mappedBy = "carLot")
+    @OneToOne(mappedBy = "carLot", cascade = CascadeType.ALL)
     private CarAuction carAuction;
 }

@@ -1,0 +1,8 @@
+<div class="lots-list-ic-container" *ngIf="lotsForIC.length">
+  <ng-container *ngFor="let car of lotsForIC">
+    <app-ic-lot-card [car]="car" (reloadEvent)="loadData()"></app-ic-lot-card>
+  </ng-container>
+</div>
+<div class="empty-list" *ngIf="!lotsForIC.length">
+  No lots available.
+</div>

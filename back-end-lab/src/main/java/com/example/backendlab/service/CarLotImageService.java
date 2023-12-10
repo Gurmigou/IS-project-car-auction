@@ -39,4 +39,8 @@ public class CarLotImageService {
             throw new RuntimeException("Failed to store image", e);
         }
     }
+
+    public void deleteList(List<CarLotImage> carLotImages) {
+        carLotImagesRepository.deleteAll(carLotImages);
+    }
 }

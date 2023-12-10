@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {concatMap, Observable} from "rxjs";
+import {concatMap, Observable, of} from "rxjs";
 import {CarLotForm} from "../../../assets/model/carAuctionCard";
 
 @Injectable({
@@ -23,6 +23,13 @@ export class CarDamageLotFormService {
     return this.httpClient.post<number>('http://localhost:8080/car-lot', carLot).pipe(
       concatMap((carLotId: number) => this.uploadImagesForCarLot(carLotId, images))
     );
+  }
+
+  public updateCarLot(carLot: CarLotForm, images: File[]): Observable<any> {
+    return this.httpClient.put<number>('http://localhost:8080/car-lot', carLot).pipe(
+      concatMap((carLotId: number) => this.uploadImagesForCarLot(carLotId, images))
+    );
+
   }
 
   private uploadImagesForCarLot(carLotId: number, images: File[]): Observable<any> {

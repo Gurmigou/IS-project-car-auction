@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class CarLotService {
     private final CarBidRepository carBidRepository;
     private final CarAuctionRepository carAuctionRepository;
     private final CarAuctionService carAuctionService;
+    private final CarLotImagesRepository carLotImagesRepository;
 
     @Autowired
     public CarLotService(CarLotRepository carLotRepository,
@@ -38,7 +40,8 @@ public class CarLotService {
                          CarLotImageService carLotImageService,
                          CarBidRepository carBidRepository,
                          CarAuctionRepository carAuctionRepository,
-                         CarAuctionService carAuctionService) {
+                         CarAuctionService carAuctionService,
+                         CarLotImagesRepository carLotImagesRepository) {
         this.carLotRepository = carLotRepository;
         this.insuranceCompanyRepository = insuranceCompanyRepository;
         this.userRepository = userRepository;
@@ -48,6 +51,7 @@ public class CarLotService {
         this.carBidRepository = carBidRepository;
         this.carAuctionRepository = carAuctionRepository;
         this.carAuctionService = carAuctionService;
+        this.carLotImagesRepository = carLotImagesRepository;
     }
 
     public CarLot getCarLotById(Long id) {
@@ -99,10 +103,22 @@ public class CarLotService {
     }
 
     @Transactional
-    public void updateCarLot(Long id, CarLotAuctionDto updatedCarLot) {
-        CarLot updated = mapToCarLot(updatedCarLot);
-        updated.setId(id);
-        carLotRepository.save(updated);
+    public Long updateCarLot(Long id, CarLotAuctionDto updatedCarLot) {
+        CarLot carLot = carLotRepository.findById(id).orElseThrow();
+        CarLot mapped = mapToCarLot(updatedCarLot);
+
+        carLot.setCarModel(mapped.getCarModel());
+        carLot.setVin(mapped.getVin());
+        carLot.setDamageDescription(mapped.getDamageDescription());
+        carLot.setCarState(mapped.getCarState());
+        carLot.setInsuranceCompany(mapped.getInsuranceCompany());
+        carLot.setIsActive(mapped.getIsActive());
+        carLot.setCarLotImages(Collections.emptyList());
+
+        carLotImagesRepository.deleteAllByCarLotId(id);
+
+        CarLot saved = carLotRepository.save(carLot);
+        return saved.getId();
     }
 
     @Transactional
@@ -129,7 +145,6 @@ public class CarLotService {
         var carModel = carModelRepository.findCarModelByName(carLotAuctionDto.getCarModel());
         carLot.setCarModel(carModel);
 
-        carLot.setIsActive(true);
         return carLot;
     }
 
@@ -191,10 +206,11 @@ public class CarLotService {
         return carLotDetailedInfo;
     }
 
-    public List<CarLotWithoutAuctionForICDto> getCarLotsForInsuranceCompany() {
+    public List<CarLotWithoutAuctionForICDto> getCarLotsForInsuranceCompany(String icName) {
         var lotsWithoutAuction = carLotRepository.findAll()
                 .stream()
                 .filter(carLot -> !carLot.getIsActive())
+                .filter(carLot -> carLot.getInsuranceCompany().getName().equals(icName))
                 .toList();
         return lotsWithoutAuction.stream()
                 .map(carLot -> CarLotWithoutAuctionForICDto
@@ -204,6 +220,9 @@ public class CarLotService {
                         .carModel(carLot.getCarModel().getName())
                         .damageDescription(carLot.getDamageDescription())
                         .image(CarCommonUtil.getCarImagedBase64(carLot.getCarLotImages().get(0)))
+                        .vin(carLot.getVin())
+                        .carState(carLot.getCarState().name())
+                        .insuranceCompany(carLot.getInsuranceCompany().getName())
                         .build())
                 .toList();
     }
