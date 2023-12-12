@@ -6,42 +6,44 @@
   </div>
   <div class="nav-links-wrapper">
     <div class="nav-links">
-      <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/ic/lot-list">
-        IC Lots [IC]
-      </button>
-      <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="ic/auction-list">
-        IC Actions [IC]
-      </button>
-      <button mat-raised-button type="submit" style="color: forestgreen"
-              class="nav-links-button" routerLink="/auction-list">
-        Auctions [U]
-      </button>
-      <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/my-bids">
-        My bids [U]
-      </button>
-      <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/approved-auctions">
-        Approvals [U]
-      </button>
-      <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/ic/approved-auctions">
-        Approvals for IC [IC]
-      </button>
-      <button mat-raised-button type="submit"
-              class="nav-links-button" routerLink="/insurance-company-list">
-        Insurance companies [U]
-      </button>
-      <button mat-raised-button type="submit" style="color: forestgreen"
-              class="nav-links-button" routerLink="/new-lot">
-        New Lot & Auction [IC]
-      </button>
+      <!-- Links for 'ic' type user -->
+      <ng-container *ngIf="localStorage.getItem('type') === 'ic'">
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/ic/lot-list">
+          IC Lots
+        </button>
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/ic/auction-list">
+          IC Actions
+        </button>
+        <button mat-raised-button type="submit" style="color: forestgreen" class="nav-links-button"
+                routerLink="/new-lot">
+          New Lot & Auction
+        </button>
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/ic/approved-auctions">
+          Approvals for IC
+        </button>
+      </ng-container>
+
+      <!-- Links for 'user' type user -->
+      <ng-container *ngIf="localStorage.getItem('type') === 'user'">
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/auction-list">
+          Auctions
+        </button>
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/my-bids">
+          My bids
+        </button>
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/approved-auctions">
+          Approvals
+        </button>
+        <button mat-raised-button type="submit" class="nav-links-button" routerLink="/insurance-company-list">
+          Insurance companies
+        </button>
+      </ng-container>
     </div>
-<!--    <button class="nav-account-icon" mat-icon-button>-->
-<!--      <mat-icon [ngStyle]="{'color':'#ef393f'}">account_circle</mat-icon>-->
-<!--    </button>-->
+    <button style="width: 30px; font-size: 10px" mat-raised-button
+            type="submit" class="nav-account-icon nav-links-button"
+    (click)="onLogout()">
+      Logout
+    </button>
   </div>
 </mat-toolbar>
 

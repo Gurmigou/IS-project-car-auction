@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-title class="registration-title">Register</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="registrationForm" (ngSubmit)="submit()">
+    <form [formGroup]="registrationForm">
       <mat-form-field class="full-width">
         <mat-label>Select</mat-label>
         <mat-select formControlName="registrationType">
@@ -56,7 +56,7 @@
       </mat-form-field>
 
       <button mat-raised-button class="full-width register-button"
-              [disabled]="!registrationForm.valid">
+              [disabled]="!registrationForm.valid" (click)="submit()">
         Register
       </button>
     </form>

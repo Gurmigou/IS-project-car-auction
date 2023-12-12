@@ -14,3 +14,5 @@ spring:
 # Additional configuration for Spring Boot if needed
 server:
   port: 8080
+
+token-secret-key: nc*De*WD?788OK.n*5YRwefodikjedwoikdwnoedoidweoniedwonnodedwenodewoidweonidewnow
