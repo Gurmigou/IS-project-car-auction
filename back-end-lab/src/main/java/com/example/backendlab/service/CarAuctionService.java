@@ -3,6 +3,7 @@ package com.example.backendlab.service;
 import com.example.backendlab.dto.CarAuctionDetailedInfo;
 import com.example.backendlab.dto.CarAuctionShortInfoDto;
 import com.example.backendlab.model.CarAuction;
+import com.example.backendlab.model.CarAuctionStatus;
 import com.example.backendlab.model.CarBid;
 import com.example.backendlab.model.CarLot;
 import com.example.backendlab.repository.CarAuctionRepository;
@@ -41,6 +42,14 @@ public class CarAuctionService {
                 .stream()
                 .map(this::mapToCarAuctionShortInfoDto)
                 .toList();
+    }
+
+    @Transactional
+    public void changeAuctionStatus(Long auctionId, CarAuctionStatus status) {
+        CarAuction carAuction = carAuctionRepository.findById(auctionId)
+                .orElseThrow(() -> new RuntimeException("Car auction not found"));
+        carAuction.setStatus(status);
+        carAuctionRepository.save(carAuction);
     }
 
     protected CarAuctionDetailedInfo mapToCarAuctionDetailedInfo(CarAuction carAuction) {

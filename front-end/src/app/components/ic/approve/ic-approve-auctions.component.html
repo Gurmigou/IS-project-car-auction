@@ -1,0 +1,8 @@
+<div class="ic-approvals-container" *ngIf="carAuctionApprovals.length">
+  <ng-container *ngFor="let car of carAuctionApprovals">
+    <app-ic-approve-card [car]="car"></app-ic-approve-card>
+  </ng-container>
+</div>
+<div class="empty-list" *ngIf="!carAuctionApprovals.length">
+  No approves available.
+</div>

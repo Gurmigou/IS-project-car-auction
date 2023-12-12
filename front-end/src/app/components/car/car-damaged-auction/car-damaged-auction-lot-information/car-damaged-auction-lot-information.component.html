@@ -18,7 +18,7 @@
         </div>
       </ng-container>
     </div>
-    <div class="car-price-bid" *ngIf="auctionStarted(carAuction?.auctionStartDate)">
+    <div class="car-price-bid" *ngIf="auctionStarted(carAuction?.auctionStartDate) && carAuction?.timeLeft !== 'Auction has ended'">
       <div class="current-price-title">Current price</div>
       <div class="current-price-value">
         {{carAuction?.currentPrice + ' $'}}

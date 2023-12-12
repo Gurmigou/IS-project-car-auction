@@ -1,5 +1,6 @@
 package com.example.backendlab.controller;
 
+import com.example.backendlab.model.CarAuctionStatus;
 import com.example.backendlab.service.CarAuctionService;
 import com.example.backendlab.service.CarLotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,26 @@ public class CarAuctionController {
     public ResponseEntity<?> getActiveForInsuranceCompany(Principal principal) {
         // TODO: use insurance company name from principal
         return ResponseEntity.ok(carLotService.getActiveForInsuranceCompany("Insurance Company 1"));
+    }
+
+    // IC Auctions Approvals [IC]
+    @GetMapping("/finished-for-ic")
+    public ResponseEntity<?> getFinishedForInsuranceCompany(Principal principal) {
+        // TODO: use insurance company name from principal
+        return ResponseEntity.ok(carLotService.getFinishedForInsuranceCompany("Insurance Company 1"));
+    }
+
+    @PutMapping("/change-auction-status")
+    public ResponseEntity<?> changeAuctionStatus(@RequestParam Long auctionId, @RequestParam CarAuctionStatus status) {
+        carAuctionService.changeAuctionStatus(auctionId, status);
+        return ResponseEntity.ok().build();
+    }
+
+
+    // IC Auctions Approvals [U]
+    @GetMapping("/finished-for-user")
+    public ResponseEntity<?> getFinishedForUser(Principal principal) {
+        // TODO: use user email from principal
+        return ResponseEntity.ok(carLotService.getFinishedForUser("some@gmail.com"));
     }
 }

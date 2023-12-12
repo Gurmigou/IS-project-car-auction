@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,4 +30,8 @@ public class CarAuction {
     private List<CarBid> carBids;
 
     private Boolean isFinished = false;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private CarAuctionStatus status = null;
 }

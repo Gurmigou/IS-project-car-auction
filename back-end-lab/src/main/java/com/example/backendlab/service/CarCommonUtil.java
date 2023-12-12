@@ -1,6 +1,7 @@
 package com.example.backendlab.service;
 
 import com.example.backendlab.model.CarAuction;
+import com.example.backendlab.model.CarAuctionStatus;
 import com.example.backendlab.model.CarLotImage;
 
 import java.sql.SQLException;
@@ -43,9 +44,14 @@ public class CarCommonUtil {
     }
 
     public static boolean carAuctionIsNotEnded(CarAuction carAuction) {
-        return Objects.nonNull(carAuction.getIsFinished()) && !carAuction.getIsFinished() &&
+        boolean isNotEnded = Objects.nonNull(carAuction.getIsFinished()) && !carAuction.getIsFinished() &&
                 carAuction.getAuctionStart()
                         .plusHours(carAuction.getAuctionDurationHours())
                         .isAfter(LocalDateTime.now());
+        if (!isNotEnded) {
+            carAuction.setIsFinished(true);
+            carAuction.setStatus(CarAuctionStatus.WAITING_FOR_APPROVAL);
+        }
+        return isNotEnded;
     }
 }

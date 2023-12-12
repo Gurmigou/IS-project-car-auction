@@ -1,0 +1,37 @@
+<mat-card class="car-card">
+  <div class="car-image">
+    <img mat-card-image [src]="'data:image/jpeg;base64,' + car?.image" alt="Damaged car image">
+  </div>
+  <div class="car-details">
+    <div class="car-title-container">
+      <div class="car-title">{{ car?.carMake + ' ' + car?.carModel }}</div>
+      <div class="car-description"><strong>Description:</strong> {{ car?.damageDescription }}</div>
+      <div class="car-vin"><strong>VIN:</strong> {{ car?.vin }}</div>
+      <div class="car-carState"><strong>State:</strong> {{ car?.carState }}</div>
+    </div>
+  </div>
+  <div class="auction-details">
+    <div class="auction-insuranceCompany"><strong>Insurance company:</strong> {{ car?.insuranceCompany }}</div>
+    <div class="auction-finalPrice"><strong>Final price:</strong> {{ car?.finalPrice }}</div>
+    <div class="auction-userName"><strong>Winner:</strong> {{ car?.userName }}</div>
+    <div class="auction-status"><strong>Status:</strong> {{ formatStatus(car?.status) }}</div>
+  </div>
+  <div *ngIf="car?.status == 'WAITING_FOR_APPROVAL'">
+    <button style="color: black; width: 90px; background: #f5e5bf; border: 2px solid #eedcae" mat-raised-button
+            color="primary"
+            (click)="onApprove()">Approve
+    </button>
+    <button style="color: black; width: 90px; margin-top: 1rem" mat-raised-button color="warn" (click)="onReject()">
+      Reject
+    </button>
+  </div>
+  <div *ngIf="car?.status == 'APPROVED'">
+    <button style="color: black; width: 90px; background: #f5e5bf; border: 2px solid #eedcae"
+            mat-raised-button color="primary" disabled>Approved
+    </button>
+  </div>
+  <div *ngIf="car?.status == 'REJECTED'">
+    <button style="color: black; width: 90px; margin-top: 1rem" mat-raised-button color="warn" disabled>Rejected
+    </button>
+  </div>
+</mat-card>

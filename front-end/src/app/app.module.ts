@@ -22,12 +22,8 @@ import {CarLotCardComponent} from './components/auction-lots-list/car-lot-card/c
 import {NgOptimizedImage} from "@angular/common";
 import {CarDamagedAuctionComponent} from './components/car/car-damaged-auction/car-damaged-auction.component';
 import {ImgCarouselComponent} from './components/common/img-carousel/img-carousel.component';
-import {
-  CarDamagedAuctionInformationComponent
-} from './components/car/car-damaged-auction/car-damaged-auction-information/car-damaged-auction-information.component';
-import {
-  CarDamagedAuctionLotInformationComponent
-} from './components/car/car-damaged-auction/car-damaged-auction-lot-information/car-damaged-auction-lot-information.component';
+import {CarDamagedAuctionInformationComponent} from './components/car/car-damaged-auction/car-damaged-auction-information/car-damaged-auction-information.component';
+import {CarDamagedAuctionLotInformationComponent} from './components/car/car-damaged-auction/car-damaged-auction-lot-information/car-damaged-auction-lot-information.component';
 import {NavBarComponent} from './components/common/nav-bar/nav-bar.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -37,9 +33,7 @@ import {routes} from "./routing/Routes";
 import {AuctionLotsListComponent} from './components/auction-lots-list/auction-lots-list.component';
 import {NotFoundComponent} from './components/common/not-found/not-found.component';
 import {HttpClientModule, HttpParams} from "@angular/common/http";
-import {
-  InsuranceCompanyListComponent
-} from './components/insurance-company/insurance-company-list/insurance-company-list.component';
+import {InsuranceCompanyListComponent} from './components/insurance-company/insurance-company-list/insurance-company-list.component';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {StatsCardComponent} from './components/insurance-company/insurance-company-list/stats/stats-card.component';
 import {MyBidCardComponent} from "./components/bids/my-bid-card/my-bid-card.component";
@@ -48,6 +42,10 @@ import {IcLotCardComponent} from "./components/ic/lots/ic-lot-card/ic-lot-card.c
 import {IcLotListComponent} from "./components/ic/lots/ic-lot-list.component";
 import {IcAuctionCardComponent} from "./components/ic/auctions/ic-auction-card/ic-auction-card.component";
 import {IcAuctionListComponent} from "./components/ic/auctions/ic-auction-list.component";
+import {UserApprovedAuctionsCardComponent} from "./components/user-approved-auctions/user-approved-auctions-card/user-approved-auctions-card.component";
+import {UserApprovedAuctionsComponent} from "./components/user-approved-auctions/user-approved-auctions.component";
+import {IcApproveCardComponent} from "./components/ic/approve/ic-approve-card/ic-approve-card.component";
+import {IcApproveAuctionsComponent} from "./components/ic/approve/ic-approve-auctions.component";
 
 @NgModule({
   declarations: [
@@ -71,7 +69,11 @@ import {IcAuctionListComponent} from "./components/ic/auctions/ic-auction-list.c
     IcLotCardComponent,
     IcLotListComponent,
     IcAuctionCardComponent,
-    IcAuctionListComponent
+    IcAuctionListComponent,
+    UserApprovedAuctionsCardComponent,
+    UserApprovedAuctionsComponent,
+    IcApproveCardComponent,
+    IcApproveAuctionsComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

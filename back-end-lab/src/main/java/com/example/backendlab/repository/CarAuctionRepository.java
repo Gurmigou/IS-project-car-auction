@@ -15,4 +15,10 @@ public interface CarAuctionRepository extends JpaRepository<CarAuction, Long> {
             WHERE CA.isFinished = false
             """)
     List<CarAuction> findAllNotFinished();
+
+    @Query("""
+            SELECT CA FROM CarAuction CA
+            WHERE CA.isFinished = true
+            """)
+    List<CarAuction> findAllFinished();
 }

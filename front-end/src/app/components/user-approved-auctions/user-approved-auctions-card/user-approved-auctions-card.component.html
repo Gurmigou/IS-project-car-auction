@@ -1,0 +1,19 @@
+<mat-card class="car-card">
+  <div class="car-image">
+    <img mat-card-image [src]="'data:image/jpeg;base64,' + car?.image" alt="Damaged car image">
+  </div>
+  <div class="car-details">
+    <div class="car-title-container">
+      <div class="car-title">{{ car?.carMake + ' ' + car?.carModel }}</div>
+      <div class="car-description"><strong>Description:</strong> {{ car?.damageDescription }}</div>
+      <div class="car-vin"><strong>VIN:</strong> {{ car?.vin }}</div>
+      <div class="car-carState"><strong>State:</strong> {{ car?.carState }}</div>
+    </div>
+  </div>
+  <div class="auction-details">
+    <div class="auction-insuranceCompany"><strong>Insurance company:</strong> {{ car?.insuranceCompany }}</div>
+    <div class="auction-finalPrice"><strong>Final price:</strong> {{ car?.finalPrice }}</div>
+    <div class="auction-userName"><strong>Winner:</strong> {{ car?.userName }}</div>
+    <div class="auction-status"><strong>Status:</strong> {{ formatStatus(car?.status) }}</div>
+  </div>
+</mat-card>

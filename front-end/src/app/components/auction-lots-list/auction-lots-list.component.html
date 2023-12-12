@@ -3,3 +3,7 @@
     <app-car-lot-card [car]="car"></app-car-lot-card>
   </ng-container>
 </div>
+<div class="empty-list" *ngIf="!auctionCars.length">
+  No auctions available.
+</div>
+

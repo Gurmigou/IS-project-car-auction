@@ -18,6 +18,20 @@ export type CarLotInfoForIC = CarLotInfo & {
   image: string
 };
 
+export type CarAuctionApproval = {
+  auctionId: number;
+  carMake: string;
+  carModel: string;
+  vin: string;
+  image: string;
+  damageDescription: string;
+  carState: string;
+  insuranceCompany: string;
+  finalPrice: number;
+  userName: string;
+  status: 'WAITING_FOR_APPROVAL' | 'APPROVED' | 'REJECTED';
+}
+
 export type CarAuctionInfoForIC = {
   auctionId: number;
   lotId: number;

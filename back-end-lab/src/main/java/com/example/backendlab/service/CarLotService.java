@@ -1,9 +1,7 @@
 package com.example.backendlab.service;
 
 import com.example.backendlab.dto.*;
-import com.example.backendlab.model.CarAuction;
-import com.example.backendlab.model.CarLot;
-import com.example.backendlab.model.InsuranceCompany;
+import com.example.backendlab.model.*;
 import com.example.backendlab.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.example.backendlab.service.CarCommonUtil.*;
@@ -59,21 +58,57 @@ public class CarLotService {
     }
 
     // Get auctions
+    @Transactional
     public List<CarAuctionCardDto> getAllActiveCarLots() {
         return carLotRepository.findAllActiveCarLots()
                 .stream()
                 .filter(carLot -> carAuctionIsNotEnded(carLot.getCarAuction()))
+                .peek(carLot -> carAuctionRepository.save(carLot.getCarAuction()))
                 .map(this::mapToCarAuctionCardDto)
                 .toList();
     }
 
+    @Transactional
     public List<CarAuctionInfoForIC> getActiveForInsuranceCompany(String insuranceCompanyName) {
         return carLotRepository.findAllActiveCarLots()
                 .stream()
                 .filter(carLot -> carAuctionIsNotEnded(carLot.getCarAuction()))
+                .peek(carLot -> carAuctionRepository.save(carLot.getCarAuction()))
                 .filter(carLot -> carLot.getInsuranceCompany().getName().equals(insuranceCompanyName))
                 .map(this::mapToCarAuctionInfoForIC)
                 .toList();
+    }
+
+    public List<CarAuctionApproval> getFinishedForInsuranceCompany(String icName) {
+        return carLotRepository.findAllActiveCarLots()
+                .stream()
+                .filter(carLot -> carLot.getInsuranceCompany().getName().equals(icName))
+                .filter(carLot -> carLot.getCarAuction().getIsFinished())
+                .map(this::mapToCarAuctionApproval)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private CarAuctionApproval mapToCarAuctionApproval(CarLot carLot) {
+        var dto = new CarAuctionApproval();
+        dto.setAuctionId(carLot.getCarAuction().getId());
+        dto.setCarMake(carLot.getCarModel().getCarMake().getName());
+        dto.setCarModel(carLot.getCarModel().getName());
+        dto.setVin(carLot.getVin());
+        dto.setDamageDescription(carLot.getDamageDescription());
+        dto.setCarState(carLot.getCarState().name());
+        dto.setInsuranceCompany(carLot.getInsuranceCompany().getName());
+
+        CarBid maxBid = carBidRepository.findMaxCarBidByCarAuctionId(carLot.getCarAuction().getId());
+        if (maxBid == null)
+            return null;
+
+        dto.setUserName(maxBid.getUser().getFirstName() + " " + maxBid.getUser().getLastName());
+
+        dto.setFinalPrice(carBidRepository.findMaxBidForCarAuctionId(carLot.getCarAuction().getId()));
+        dto.setStatus(carLot.getCarAuction().getStatus());
+        dto.setImage(getCarImagedBase64(carLot.getCarLotImages().get(0)));
+        return dto;
     }
 
     private CarAuctionInfoForIC mapToCarAuctionInfoForIC(CarLot carLot) {
@@ -257,6 +292,17 @@ public class CarLotService {
                         .carState(carLot.getCarState().name())
                         .insuranceCompany(carLot.getInsuranceCompany().getName())
                         .build())
+                .toList();
+    }
+
+    public List<CarAuctionApproval> getFinishedForUser(String userEmail) {
+        return carAuctionRepository.findAllFinished()
+                .stream()
+                .map(carAuction -> carBidRepository.findMaxCarBidByCarAuctionId(carAuction.getId()))
+                .filter(Objects::nonNull)
+                .filter(carBid -> carBid.getUser().getEmail().equals(userEmail))
+                .map(carBid -> mapToCarAuctionApproval(carBid.getCarAuction().getCarLot()))
+                .filter(Objects::nonNull)
                 .toList();
     }
 }
