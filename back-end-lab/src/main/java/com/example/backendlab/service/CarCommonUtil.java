@@ -48,7 +48,7 @@ public class CarCommonUtil {
                 carAuction.getAuctionStart()
                         .plusHours(carAuction.getAuctionDurationHours())
                         .isAfter(LocalDateTime.now());
-        if (!isNotEnded) {
+        if (!isNotEnded && !carAuction.getIsFinished()) {
             carAuction.setIsFinished(true);
             carAuction.setStatus(CarAuctionStatus.WAITING_FOR_APPROVAL);
         }

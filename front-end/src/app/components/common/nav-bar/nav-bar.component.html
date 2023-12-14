@@ -14,12 +14,12 @@
         <button mat-raised-button type="submit" class="nav-links-button" routerLink="/ic/auction-list">
           IC Actions
         </button>
-        <button mat-raised-button type="submit" style="color: forestgreen" class="nav-links-button"
-                routerLink="/new-lot">
-          New Lot & Auction
-        </button>
         <button mat-raised-button type="submit" class="nav-links-button" routerLink="/ic/approved-auctions">
           Approvals for IC
+        </button>
+        <button mat-raised-button type="submit" class="nav-links-button"
+                routerLink="/new-lot">
+          <strong> New Lot & Auction</strong>
         </button>
       </ng-container>
 
@@ -41,7 +41,7 @@
     </div>
     <button style="width: 30px; font-size: 10px" mat-raised-button
             type="submit" class="nav-account-icon nav-links-button"
-    (click)="onLogout()">
+            (click)="onLogout()">
       Logout
     </button>
   </div>

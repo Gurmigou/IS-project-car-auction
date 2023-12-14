@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,8 +24,8 @@ public class CarLotController {
 
     // IC Lots [IC]
     @GetMapping("/lots-for-ic")
-    public ResponseEntity<?> getCarLotsForInsuranceCompany(String icName) {
-        return ResponseEntity.ok(carLotService.getCarLotsForInsuranceCompany(icName));
+    public ResponseEntity<?> getCarLotsForInsuranceCompany(Principal principal) {
+        return ResponseEntity.ok(carLotService.getCarLotsForInsuranceCompany(principal.getName()));
     }
 
     @DeleteMapping
@@ -39,8 +40,8 @@ public class CarLotController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto) {
-        Long savedCarLotId = carLotService.saveCarLot(carLotAuctionDto);
+    public ResponseEntity<?> createCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto, Principal principal) {
+        Long savedCarLotId = carLotService.saveCarLot(carLotAuctionDto, principal.getName());
         return ResponseEntity.ok(savedCarLotId);
     }
 
@@ -52,8 +53,8 @@ public class CarLotController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto) {
-        Long updatedCarLotId = carLotService.updateCarLot(carLotAuctionDto.getId(), carLotAuctionDto);
+    public ResponseEntity<?> updateCarLot(@RequestBody CarLotAuctionDto carLotAuctionDto, Principal principal) {
+        Long updatedCarLotId = carLotService.updateCarLot(carLotAuctionDto.getId(), carLotAuctionDto, principal.getName());
         return ResponseEntity.ok(updatedCarLotId);
     }
 }

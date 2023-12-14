@@ -20,16 +20,14 @@ public class MyBidsController {
 
     @GetMapping ("/bids-for-user")
     public ResponseEntity<?> getBidsForUser(Principal principal) {
-        // TODO: change for real email
-        return ResponseEntity.ok(carBidService.getMyBids("some@gmail.com"));
+        return ResponseEntity.ok(carBidService.getMyBids(principal.getName()));
     }
 
     @PostMapping
     public ResponseEntity<?> submitNewBid(Principal principal,
                                           @RequestParam Long auctionId,
                                           @RequestParam Integer bid) {
-        // TODO: change for real email
-        carBidService.createNewCarBid("some@gmail.com", auctionId, bid);
+        carBidService.createNewCarBid(principal.getName(), auctionId, bid);
         return ResponseEntity.ok().build();
     }
 

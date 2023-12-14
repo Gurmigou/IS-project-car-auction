@@ -38,15 +38,13 @@ public class CarAuctionController {
     // IC Auctions [IC]
     @GetMapping("/active-for-ic")
     public ResponseEntity<?> getActiveForInsuranceCompany(Principal principal) {
-        // TODO: use insurance company name from principal
-        return ResponseEntity.ok(carLotService.getActiveForInsuranceCompany("Insurance Company 1"));
+        return ResponseEntity.ok(carLotService.getActiveForInsuranceCompany(principal.getName()));
     }
 
     // IC Auctions Approvals [IC]
     @GetMapping("/finished-for-ic")
     public ResponseEntity<?> getFinishedForInsuranceCompany(Principal principal) {
-        // TODO: use insurance company name from principal
-        return ResponseEntity.ok(carLotService.getFinishedForInsuranceCompany("Insurance Company 1"));
+        return ResponseEntity.ok(carLotService.getFinishedForInsuranceCompany(principal.getName()));
     }
 
     @PutMapping("/change-auction-status")
@@ -59,7 +57,6 @@ public class CarAuctionController {
     // IC Auctions Approvals [U]
     @GetMapping("/finished-for-user")
     public ResponseEntity<?> getFinishedForUser(Principal principal) {
-        // TODO: use user email from principal
-        return ResponseEntity.ok(carLotService.getFinishedForUser("some@gmail.com"));
+        return ResponseEntity.ok(carLotService.getFinishedForUser(principal.getName()));
     }
 }

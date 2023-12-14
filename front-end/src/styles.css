@@ -1,8 +1,13 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+* {
+  font-family: 'Lato', sans-serif;
+}
+
 html {
   box-sizing: border-box;
   font-size: 16px;
+
 }
 
 *, *:before, *:after {
@@ -23,3 +28,4 @@ img {
   max-width: 100%;
   height: auto;
 }
+

@@ -2,14 +2,8 @@ package com.example.backendlab.service;
 
 import com.example.backendlab.dto.CarAuctionDetailedInfo;
 import com.example.backendlab.dto.CarAuctionShortInfoDto;
-import com.example.backendlab.model.CarAuction;
-import com.example.backendlab.model.CarAuctionStatus;
-import com.example.backendlab.model.CarBid;
-import com.example.backendlab.model.CarLot;
-import com.example.backendlab.repository.CarAuctionRepository;
-import com.example.backendlab.repository.CarBidRepository;
-import com.example.backendlab.repository.CarLotRepository;
-import com.example.backendlab.repository.UserRepository;
+import com.example.backendlab.model.*;
+import com.example.backendlab.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,16 +19,19 @@ public class CarAuctionService {
     private final CarLotRepository carLotRepository;
     private final CarBidRepository carBidRepository;
     private final UserRepository userRepository;
+    private final BoughtCarLotRepository boughtCarLotRepository;
 
     @Autowired
     public CarAuctionService(CarAuctionRepository carAuctionRepository,
                              CarLotRepository carLotRepository,
                              CarBidRepository carBidRepository,
-                             UserRepository userRepository) {
+                             UserRepository userRepository,
+                             BoughtCarLotRepository boughtCarLotRepository) {
         this.carAuctionRepository = carAuctionRepository;
         this.carLotRepository = carLotRepository;
         this.carBidRepository = carBidRepository;
         this.userRepository = userRepository;
+        this.boughtCarLotRepository = boughtCarLotRepository;
     }
 
     public List<CarAuctionShortInfoDto> getActiveAuctions() {
@@ -50,6 +47,15 @@ public class CarAuctionService {
                 .orElseThrow(() -> new RuntimeException("Car auction not found"));
         carAuction.setStatus(status);
         carAuctionRepository.save(carAuction);
+
+        if (status == CarAuctionStatus.APPROVED) {
+            CarBid maxCarBid = carBidRepository.findMaxCarBidByCarAuctionId(auctionId);
+            var boughtCarLot = new BoughtCarLot();
+            boughtCarLot.setCarLot(carAuction.getCarLot());
+            boughtCarLot.setUser(maxCarBid.getUser());
+            boughtCarLot.setFinalPrice(maxCarBid.getBidAmount());
+            boughtCarLotRepository.save(boughtCarLot);
+        }
     }
 
     protected CarAuctionDetailedInfo mapToCarAuctionDetailedInfo(CarAuction carAuction) {

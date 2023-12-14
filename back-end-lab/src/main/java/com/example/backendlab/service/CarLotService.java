@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -141,7 +142,11 @@ public class CarLotService {
     }
 
     @Transactional
-    public Long saveCarLot(CarLotAuctionDto carLotAuctionDto) {
+    public Long saveCarLot(CarLotAuctionDto carLotAuctionDto, String icName) {
+        carLotAuctionDto.setInsuranceCompanyId(insuranceCompanyRepository.findByName(icName)
+                .orElseThrow(() -> new EntityNotFoundException("Insurance company with name " + icName + " not found"))
+                .getId());
+
         CarLot carLot = mapToCarLot(carLotAuctionDto);
         if (carLotAuctionDto.getWithoutPublish()) {
             CarLot saved = carLotRepository.save(carLot);
@@ -164,7 +169,11 @@ public class CarLotService {
     }
 
     @Transactional
-    public Long updateCarLot(Long id, CarLotAuctionDto updatedCarLot) {
+    public Long updateCarLot(Long id, CarLotAuctionDto updatedCarLot, String icName) {
+        InsuranceCompany insuranceCompany = insuranceCompanyRepository.findByName(icName)
+                .orElseThrow(() -> new EntityNotFoundException("Insurance company with name " + icName + " not found"));
+        updatedCarLot.setInsuranceCompanyId(insuranceCompany.getId());
+
         CarLot carLot = carLotRepository.findById(id).orElseThrow();
         CarLot mapped = mapToCarLot(updatedCarLot);
 

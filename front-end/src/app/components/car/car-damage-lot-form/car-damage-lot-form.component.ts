@@ -128,8 +128,6 @@ export class CarDamageLotFormComponent implements OnInit {
       auctionDurationHours: 0,
       auctionStart: '',
       withoutPublish: this.carForm.get('withoutPublish')?.value,
-      insuranceCompanyId: 1
-      // TODO: Number(localStorage.getItem('insuranceCompanyId'))
     }
     if (!this.isWithoutPublish()) {
       carLot.initialPrice = this.carForm.get('lotInitialAmount')?.value;

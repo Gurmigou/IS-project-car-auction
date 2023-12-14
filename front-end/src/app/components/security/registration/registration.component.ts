@@ -42,4 +42,8 @@ export class RegistrationComponent {
   getType() {
     return this.registrationType;
   }
+
+  gotoLogin() {
+    this.router.navigate(['/login'], {replaceUrl: true});
+  }
 }

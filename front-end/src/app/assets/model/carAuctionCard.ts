@@ -94,5 +94,4 @@ export type CarLotForm = {
   auctionDurationHours: number;
   auctionStart: string;
   withoutPublish: boolean;
-  insuranceCompanyId: number;
 }

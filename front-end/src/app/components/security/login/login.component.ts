@@ -38,4 +38,8 @@ export class LoginComponent {
         localStorage.setItem('token', token.jwtToken);
       });
   }
+
+  gotoRegister() {
+    this.router.navigate(['/register'], {replaceUrl: true});
+  }
 }

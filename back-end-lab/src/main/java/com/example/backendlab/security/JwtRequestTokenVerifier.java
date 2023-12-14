@@ -38,17 +38,24 @@ public class JwtRequestTokenVerifier extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             // execute a "replace" method to remove a "Bearer " word
             final String jwtToken = authorizationHeader.replace("Bearer ", "");
-
-            try {
-                String userEmail = jwtProvider.extractUserEmail(jwtToken);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(
-                        userEmail,
+            if (jwtToken == null || jwtToken.isEmpty() || jwtToken.equalsIgnoreCase("null")) {
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
+                        null,
                         null,
                         null
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (JwtException e) {
-                throw new IllegalStateException(String.format("Token %s cannot be trusted", jwtToken));
+                ));
+            } else {
+                try {
+                    String userEmail = jwtProvider.extractUserEmail(jwtToken);
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(
+                            userEmail,
+                            null,
+                            null
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } catch (JwtException e) {
+                    throw new IllegalStateException(String.format("Token %s cannot be trusted", jwtToken));
+                }
             }
         }
         filterChain.doFilter(request, response);

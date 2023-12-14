@@ -34,7 +34,7 @@ public class SecurityService {
 
     public void registerUser(RegistrationDto registrationDto) {
         if (isUserExistsByLogin(registrationDto.getEmail())) {
-            if (Objects.nonNull(registrationDto.getInsuranceCompanyName())) {
+            if (Objects.nonNull(registrationDto.getInsuranceCompanyName()) && !registrationDto.getInsuranceCompanyName().isEmpty()) {
                 InsuranceCompany insuranceCompany = new InsuranceCompany();
 
                 userRepository.findByEmail(registrationDto.getEmail())
@@ -60,7 +60,7 @@ public class SecurityService {
         if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword()))
             throw new IllegalStateException("Passwords don't match");
 
-        if (Objects.nonNull(loginDto.getInsuranceCompanyName())) {
+        if (Objects.nonNull(loginDto.getInsuranceCompanyName()) && !loginDto.getInsuranceCompanyName().isEmpty()) {
             return new TokenDto(jwtProvider.generateToken(loginDto.getInsuranceCompanyName()));
         } else {
             return new TokenDto(jwtProvider.generateToken(user.getEmail()));
